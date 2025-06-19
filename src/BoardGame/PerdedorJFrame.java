@@ -4,17 +4,43 @@
  */
 package BoardGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
 /**
  *
  * @author vazqu
  */
 public class PerdedorJFrame extends javax.swing.JFrame {
 
+    FondoPanel fondo = new FondoPanel();
+
     /**
      * Creates new form PerdedorJFrame
      */
     public PerdedorJFrame() {
+
+        this.setContentPane(fondo);
         initComponents();
+        playSound("/sounds/Derrota.wav");
+    }
+
+    public void playSound(String soundFilePath) {
+        try {
+            // Cargar el archivo de sonido
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(getClass().getResource(soundFilePath));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.start(); // Reproducir el sonido
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -27,13 +53,12 @@ public class PerdedorJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel2 = new FondoPanel();
         lblderrota = new javax.swing.JLabel();
         lblNombreJugador = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButtonReiniciar = new javax.swing.JButton();
-        jButtonContinuar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,39 +67,48 @@ public class PerdedorJFrame extends javax.swing.JFrame {
         lblderrota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Derrota.png"))); // NOI18N
 
         lblNombreJugador.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 24)); // NOI18N
+        lblNombreJugador.setForeground(new java.awt.Color(255, 255, 255));
         lblNombreJugador.setText("¡Animo!");
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel3.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("La derrota no es el final, es una lección en el camino hacia la victoria.");
 
         jButtonReiniciar.setBackground(new java.awt.Color(51, 51, 255));
-        jButtonReiniciar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
+        jButtonReiniciar.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
         jButtonReiniciar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonReiniciar.setText("Reiniciar");
-        jButtonReiniciar.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 255)));
-
-        jButtonContinuar.setBackground(new java.awt.Color(255, 153, 51));
-        jButtonContinuar.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
-        jButtonContinuar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonContinuar.setText("Continuar");
-        jButtonContinuar.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 255)));
+        jButtonReiniciar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 51), 3, true));
+        jButtonReiniciar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButtonReiniciarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButtonReiniciarMouseExited(evt);
+            }
+        });
+        jButtonReiniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReiniciarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(31, 31, 31))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(106, 106, 106)
-                .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonContinuar)
-                .addGap(100, 100, 100))
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(227, 227, 227))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,12 +116,8 @@ public class PerdedorJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButtonContinuar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(4, 4, 4)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -95,27 +125,27 @@ public class PerdedorJFrame extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(lblderrota, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(131, 131, 131)
-                        .addComponent(lblNombreJugador)))
+                        .addComponent(lblNombreJugador))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addComponent(lblderrota, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblderrota, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62)
+                .addComponent(lblderrota, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addComponent(lblNombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
@@ -144,6 +174,23 @@ public class PerdedorJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReiniciarActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButtonReiniciarActionPerformed
+
+    private void jButtonReiniciarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReiniciarMouseEntered
+        // TODO add your handling code here:
+        jButtonReiniciar.setBackground(new Color(255, 200, 100)); // Cambiar el color al pasar el mouse
+        jButtonReiniciar.setForeground(Color.BLACK);
+    }//GEN-LAST:event_jButtonReiniciarMouseEntered
+
+    private void jButtonReiniciarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReiniciarMouseExited
+        // TODO add your handling code here:
+        jButtonReiniciar.setBackground(new Color(51, 51, 255)); // Restaurar el color original
+        jButtonReiniciar.setForeground(Color.WHITE); // Restaurar color del texto
+    }//GEN-LAST:event_jButtonReiniciarMouseExited
 
     /**
      * @param args the command line arguments
@@ -181,7 +228,6 @@ public class PerdedorJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonContinuar;
     private javax.swing.JButton jButtonReiniciar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -190,4 +236,18 @@ public class PerdedorJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblNombreJugador;
     private javax.swing.JLabel lblderrota;
     // End of variables declaration//GEN-END:variables
+ class FondoPanel extends JPanel {
+
+        private Image imagen;
+
+        @Override
+        public void paint(Graphics g) {
+            imagen = new ImageIcon(getClass().getResource("/images/DerrotaF.jpg")).getImage();
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+
+            setOpaque(false);
+
+            super.paint(g);
+        }
+    }
 }
