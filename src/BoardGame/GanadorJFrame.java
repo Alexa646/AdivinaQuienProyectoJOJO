@@ -27,11 +27,23 @@ public class GanadorJFrame extends javax.swing.JFrame {
 
         this.setContentPane(fondo);
         initComponents();
-        setTitle("Pantalla Ganador");
-        setSize(700, 700);
+        setTitle("Adivina Quien- JOJO");
+
         setLocationRelativeTo(null);
 
         playSound("/sounds/Victoria.wav"); // Cambia por el nombre de tu archivo
+
+        Timer timer = new Timer(500, new ActionListener() {
+            private boolean visible = true;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //.setVisible(visible);
+                visible = !visible; // Alterna visibilidad
+            }
+        });
+        timer.start();
+      
 
     }
 
@@ -45,6 +57,39 @@ public class GanadorJFrame extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void fadeIn(JFrame frame) {
+        new Timer(50, new ActionListener() {
+            float opacity = 0.0f;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                opacity += 0.05f;
+                if (opacity > 1.0f) {
+                    opacity = 1.0f;
+                    ((Timer) e.getSource()).stop();
+                }
+                frame.setOpacity(opacity);
+            }
+        }).start();
+    }
+
+    public void fadeOut(JFrame frame) {
+        new Timer(50, new ActionListener() {
+            float opacity = 1.0f;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                opacity -= 0.05f;
+                if (opacity < 0.0f) {
+                    opacity = 0.0f;
+                    ((Timer) e.getSource()).stop();
+                    frame.dispose(); // Cierra el JFrame después de desaparecer
+                }
+                frame.setOpacity(opacity);
+            }
+        }).start();
     }
 
     /**
@@ -61,8 +106,10 @@ public class GanadorJFrame extends javax.swing.JFrame {
         jLabelFelicitaciones = new javax.swing.JLabel();
         jPanelbotones = new javax.swing.JPanel();
         jButtonReiniciar = new javax.swing.JButton();
-        jLabelFelicitaciones1 = new javax.swing.JLabel();
+        jLabelFrase = new javax.swing.JLabel();
         lblNombreJugador = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,38 +141,44 @@ public class GanadorJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabelFelicitaciones1.setFont(new java.awt.Font("Berlin Sans FB", 1, 24)); // NOI18N
-        jLabelFelicitaciones1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelFelicitaciones1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelFelicitaciones1.setText("GG ¡Bien jugado! Disfruta tu triunfo");
+        jLabelFrase.setFont(new java.awt.Font("Berlin Sans FB", 1, 24)); // NOI18N
+        jLabelFrase.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelFrase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelFrase.setText("GG ¡Bien jugado! Disfruta tu triunfo");
 
         javax.swing.GroupLayout jPanelbotonesLayout = new javax.swing.GroupLayout(jPanelbotones);
         jPanelbotones.setLayout(jPanelbotonesLayout);
         jPanelbotonesLayout.setHorizontalGroup(
             jPanelbotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelbotonesLayout.createSequentialGroup()
-                .addContainerGap(98, Short.MAX_VALUE)
-                .addComponent(jLabelFelicitaciones1)
-                .addGap(102, 102, 102))
             .addGroup(jPanelbotonesLayout.createSequentialGroup()
-                .addGap(220, 220, 220)
-                .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelFrase)
+                .addGap(61, 61, 61))
+            .addGroup(jPanelbotonesLayout.createSequentialGroup()
+                .addGap(148, 148, 148)
+                .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelbotonesLayout.setVerticalGroup(
             jPanelbotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelbotonesLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabelFelicitaciones1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelFrase, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         lblNombreJugador.setFont(new java.awt.Font("Berlin Sans FB", 1, 24)); // NOI18N
         lblNombreJugador.setForeground(new java.awt.Color(255, 255, 255));
         lblNombreJugador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNombreJugador.setText("¡Felicidades!");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/trofeo.png"))); // NOI18N
+        jLabel1.setText("jLabel1");
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/trofeo.png"))); // NOI18N
+        jLabel2.setText("jLabel1");
 
         javax.swing.GroupLayout jPanelFondoLayout = new javax.swing.GroupLayout(jPanelFondo);
         jPanelFondo.setLayout(jPanelFondoLayout);
@@ -134,39 +187,45 @@ public class GanadorJFrame extends javax.swing.JFrame {
             .addGroup(jPanelFondoLayout.createSequentialGroup()
                 .addGroup(jPanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelFondoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanelbotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(107, 107, 107)
+                        .addComponent(jPanelbotones, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelFondoLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(lblNombreJugador))
-                    .addGroup(jPanelFondoLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabelFelicitaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(101, 101, 101)
+                        .addGroup(jPanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelFondoLayout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(87, 87, 87)
+                                .addComponent(lblNombreJugador)
+                                .addGap(73, 73, 73)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelFelicitaciones))))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
         jPanelFondoLayout.setVerticalGroup(
             jPanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelFondoLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
                 .addComponent(jLabelFelicitaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(32, 32, 32)
-                .addComponent(lblNombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(29, 29, 29)
+                .addGroup(jPanelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelbotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(151, 151, 151))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -174,7 +233,7 @@ public class GanadorJFrame extends javax.swing.JFrame {
 
     private void jButtonReiniciarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReiniciarMouseEntered
         // TODO add your handling code here:
-        
+
         jButtonReiniciar.setBackground(new Color(255, 200, 100)); // Cambiar el color al pasar el mouse
         jButtonReiniciar.setForeground(Color.BLACK);
     }//GEN-LAST:event_jButtonReiniciarMouseEntered
@@ -222,8 +281,10 @@ public class GanadorJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonReiniciar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelFelicitaciones;
-    private javax.swing.JLabel jLabelFelicitaciones1;
+    private javax.swing.JLabel jLabelFrase;
     private javax.swing.JPanel jPanelFondo;
     private javax.swing.JPanel jPanelbotones;
     private javax.swing.JLabel lblNombreJugador;
