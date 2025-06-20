@@ -905,6 +905,8 @@ public class Board extends javax.swing.JFrame {
 
     private void jButtonInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformationActionPerformed
         // TODO add your handling code here:
+        JFrameHowToPlay Howto = new JFrameHowToPlay();
+        Howto.setVisible(true);
     }//GEN-LAST:event_jButtonInformationActionPerformed
 
     /**

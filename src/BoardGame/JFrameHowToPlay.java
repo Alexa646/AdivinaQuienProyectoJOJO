@@ -8,6 +8,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLayeredPane; 
 import java.awt.Dimension; 
+import javax.swing.JFrame;
 
 /**
  *
@@ -21,6 +22,7 @@ public class JFrameHowToPlay extends javax.swing.JFrame {
     public JFrameHowToPlay() {
         initComponents();
         scaleBackgroundImage(); 
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
 
