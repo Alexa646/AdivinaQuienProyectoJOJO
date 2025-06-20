@@ -1,0 +1,7 @@
+# Archivos de build y clases generadas (Java)
+/build/
+/dist/
+
+# Archivos de configuración de IDE (NetBeans)
+/nbproject/private/
+*.form
