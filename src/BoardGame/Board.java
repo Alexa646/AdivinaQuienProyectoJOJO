@@ -1,4 +1,3 @@
-
 package BoardGame;
 
 import java.util.Random;
@@ -20,42 +19,41 @@ import java.util.Map;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.JFrame;
 import javax.swing.Timer;
 
 public class Board extends javax.swing.JFrame {
-    
-    
-     private javax.swing.Timer timer;
+
+    private javax.swing.Timer timer;
     private int segundosTranscurridos = 0;
 
     private boolean musicaReproduciendo = false;
     private Clip clip;
     private long posicionPausa = 0; // Guarda la posición cuando se pausa
     private final String rutaMusica = "/sounds/cancion.wav";
-    
-    ArrayList<String> mylist; 
+
+    ArrayList<String> mylist;
     private static final String BACK_POKER_IMAGE_PATH = "/Images/BackPoker.jpg";
     private JLabel[] labels;
-    
-    public void RNG()
-    {
-        
+
+    public void RNG() {
+
         labels = new JLabel[]{
-        jLabel1,jLabel2,jLabel3,jLabel4,jLabel5,jLabel6,jLabel7,jLabel8,jLabel9,jLabel10,
-        jLabel11, jLabel12,jLabel13,jLabel14,jLabel15,jLabel16,jLabel17,jLabel18,
-        jLabel19,jLabel20,jLabel21,jLabel22,jLabel23,jLabel26,jLabel27
+            jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
+            jLabel11, jLabel12, jLabel13, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18,
+            jLabel19, jLabel20, jLabel21, jLabel22, jLabel23, jLabel26, jLabel27
         };
 
         // Creating an empty ArrayList of string type 
-        mylist = new ArrayList<String>(); 
-  
+        mylist = new ArrayList<String>();
+
         // Adding custom input elements to list object 
-        mylist.add("1"); 
-        mylist.add("2"); 
-        mylist.add("3"); 
-        mylist.add("4"); 
-        mylist.add("5"); 
-        mylist.add("6"); 
+        mylist.add("1");
+        mylist.add("2");
+        mylist.add("3");
+        mylist.add("4");
+        mylist.add("5");
+        mylist.add("6");
         mylist.add("7");
         mylist.add("8");
         mylist.add("9");
@@ -84,16 +82,14 @@ public class Board extends javax.swing.JFrame {
         mylist.add("32");
         mylist.add("33");
         mylist.add("34");
-        
 
-        System.out.println("Original List : \n" + mylist); 
-  
+        System.out.println("Original List : \n" + mylist);
+
         // Shuffling the list 
-        Collections.shuffle(mylist); 
-  
-   
-        System.out.println("\nShuffled List : \n" + mylist); 
-        Random r= new Random();
+        Collections.shuffle(mylist);
+
+        System.out.println("\nShuffled List : \n" + mylist);
+        Random r = new Random();
         int r1 = r.nextInt(24);
         for (int i = 0; i < 24; i++) {
             System.out.println("Valor de i: " + i);
@@ -103,7 +99,7 @@ public class Board extends javax.swing.JFrame {
             Image image = originalIcon.getImage();
             Image scaledImage = image.getScaledInstance(labels[i].getWidth(), labels[i].getHeight(), Image.SCALE_SMOOTH);
             labels[i].setIcon(new ImageIcon(scaledImage));
-            labels[i].setName(imageIdentifier); 
+            labels[i].setName(imageIdentifier);
             /* no lo descomente esto es solo para activar aleatorio de pruba al presionar iniciar
             if(r1==i)
             {
@@ -112,20 +108,19 @@ public class Board extends javax.swing.JFrame {
                 scaledImage = image.getScaledInstance(labels[24].getWidth(), labels[24].getHeight(), Image.SCALE_SMOOTH);
                 labels[24].setIcon(new ImageIcon(scaledImage));
             }
-            */
+             */
         }
-        
+
     }
-    
-    public void RNGchus()
-    {
+
+    public void RNGchus() {
         labels = new JLabel[]{
-        jLabel1,jLabel2,jLabel3,jLabel4,jLabel5,jLabel6,jLabel7,jLabel8,jLabel9,jLabel10,
-        jLabel11, jLabel12,jLabel13,jLabel14,jLabel15,jLabel16,jLabel17,jLabel18,
-        jLabel19,jLabel20,jLabel21,jLabel22,jLabel23,jLabel26,jLabel27
+            jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
+            jLabel11, jLabel12, jLabel13, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18,
+            jLabel19, jLabel20, jLabel21, jLabel22, jLabel23, jLabel26, jLabel27
         };
-        
-        Random r= new Random();
+
+        Random r = new Random();
         int r1 = r.nextInt(24);
         for (int i = 0; i < 24; i++) {
             System.out.println("Valor de i: " + i);
@@ -134,14 +129,13 @@ public class Board extends javax.swing.JFrame {
             ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
             Image image = originalIcon.getImage();
             Image scaledImage = image.getScaledInstance(labels[i].getWidth(), labels[i].getHeight(), Image.SCALE_SMOOTH);
-            if(r1==i)
-            {
+            if (r1 == i) {
                 originalIcon = new ImageIcon(getClass().getResource(imagePath));
                 image = originalIcon.getImage();
                 scaledImage = image.getScaledInstance(labels[24].getWidth(), labels[24].getHeight(), Image.SCALE_SMOOTH);
                 labels[24].setIcon(new ImageIcon(scaledImage));
-                
-                 // Actualizar imagen en el panel superior
+
+                // Actualizar imagen en el panel superior
                 ImageIcon personajeIcon = new ImageIcon(getClass().getResource(imagePath));
                 Image personajeImg = personajeIcon.getImage();
                 Image scaledPersonaje = personajeImg.getScaledInstance(
@@ -156,6 +150,8 @@ public class Board extends javax.swing.JFrame {
 
     public Board() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         labels = new JLabel[]{
             jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
             jLabel11, jLabel12, jLabel13, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18,
@@ -174,46 +170,60 @@ public class Board extends javax.swing.JFrame {
             }
         }
         setDefaultImages();
-        scaleInformationButtonIcon(); 
-        
+        scaleInformationButtonIcon();
+
         //elementos
         actualizarFecha();
         iniciarTemporizador();
         //lblNombreJugadorsetText("Jugador: " + nombreJugador);
         cargarMusica();
     }
-    
+
     private void scaleInformationButtonIcon() {
-    String imagePath = "/Images/clear-information-icon-070831--icons-etc-30.png";
-    try {
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
-        Image image = originalIcon.getImage();
+        String imagePath = "/Images/clear-information-icon-070831--icons-etc-30.png";
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
+            Image image = originalIcon.getImage();
 
-        // Get the current width and height of the button
-        int buttonWidth = jButtonInformation.getWidth();
-        int buttonHeight = jButtonInformation.getHeight();
+            // Get the current width and height of the button
+            int buttonWidth = jButtonInformation.getWidth();
+            int buttonHeight = jButtonInformation.getHeight();
 
-        // Ensure the button has a size before trying to scale.
-        // If the button hasn't been laid out yet, its width/height might be 0.
-        // You might need to call this after the JFrame is visible or after a pack().
-        if (buttonWidth == 0 || buttonHeight == 0) {
-            // As a fallback, you can set a default size or defer this call.
-            // For now, let's just make sure it's not 0 to avoid errors.
-            // A common practice is to call this after the frame is packed or set visible.
-            // For immediate setup, you might need to give the button preferred size or similar.
-            System.out.println("Warning: jButtonInformation has 0 width or height. Icon might not scale correctly initially.");
-            // You can set a default size for scaling if the button isn't yet rendered
-            buttonWidth = 30; // Example default width
-            buttonHeight = 30; // Example default height
+            // Ensure the button has a size before trying to scale.
+            // If the button hasn't been laid out yet, its width/height might be 0.
+            // You might need to call this after the JFrame is visible or after a pack().
+            if (buttonWidth == 0 || buttonHeight == 0) {
+                // As a fallback, you can set a default size or defer this call.
+                // For now, let's just make sure it's not 0 to avoid errors.
+                // A common practice is to call this after the frame is packed or set visible.
+                // For immediate setup, you might need to give the button preferred size or similar.
+                System.out.println("Warning: jButtonInformation has 0 width or height. Icon might not scale correctly initially.");
+                // You can set a default size for scaling if the button isn't yet rendered
+                buttonWidth = 30; // Example default width
+                buttonHeight = 30; // Example default height
+            }
+
+            Image scaledImage = image.getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
+            jButtonInformation.setIcon(new ImageIcon(scaledImage));
+        } catch (NullPointerException e) {
+            System.err.println("Error: Information icon not found at " + imagePath);
         }
-
-        Image scaledImage = image.getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
-        jButtonInformation.setIcon(new ImageIcon(scaledImage));
-    } catch (NullPointerException e) {
-        System.err.println("Error: Information icon not found at " + imagePath);
     }
-}
-    
+
+    /*jListPreguntas.addListSelectionListener ( 
+        new javax.swing.event.ListSelectionListener() {
+    @Override
+        public void valueChanged
+        (javax.swing.event.ListSelectionEvent e
+        
+            ) {
+        if (!e.getValueIsAdjusting()) {
+                String preguntaSeleccionada = jListPreguntas.getSelectedValue();
+                jTextFieldCampoPreguntas.setText(preguntaSeleccionada);
+            }
+        }
+    });*/
+
     private void setDefaultImages() {
         // Array of all JLabels you want to set the image for
         labels = new JLabel[]{
@@ -232,27 +242,27 @@ public class Board extends javax.swing.JFrame {
             image = originalIcon.getImage();
         } catch (NullPointerException e) {
             System.err.println("Error: default_image.png not found at " + defaultImagePath);
-            
-            return; 
+
+            return;
         }
 
         for (JLabel label : labels) {
-            if (label != null) { 
-                
+            if (label != null) {
+
                 scaledImage = image.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
                 label.setIcon(new ImageIcon(scaledImage));
             }
         }
     }
-    
+
     //fecha
     private void actualizarFecha() {
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         lblfecha.setText(fechaActual.format(formatter));
     }
-    
-        //temporizador para duracion
+
+    //temporizador para duracion
     private void iniciarTemporizador() {
         timer = new Timer(1000, e -> {
             segundosTranscurridos++;
@@ -263,16 +273,16 @@ public class Board extends javax.swing.JFrame {
 
         timer.start();
     }
-    
-        //Metodo cargar Musica
+
+    //Metodo cargar Musica
     private void cargarMusica() {
         if (clip != null) {
-            
+
             return;
         }
 
         try {
-            
+
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
                     getClass().getResource(rutaMusica));
             clip = AudioSystem.getClip();
@@ -283,7 +293,6 @@ public class Board extends javax.swing.JFrame {
             musicaReproduciendo = true;
             btnMusica.setIcon(new ImageIcon(getClass().getResource("/images/sonido.png")));
 
-            
             System.out.println("DEBUG: musicaReproduciendo = " + musicaReproduciendo);
 
         } catch (Exception e) {
@@ -291,7 +300,7 @@ public class Board extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     // Método para controlar la música
     private void Musica() {
         System.out.println("DEBUG: Método Musica() llamado");
@@ -347,15 +356,13 @@ public class Board extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
-        public void cerrarRecursos() {
+
+    public void cerrarRecursos() {
         if (clip != null) {
             clip.stop();
             clip.close();
         }
     }
-
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -411,7 +418,6 @@ public class Board extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel24 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -425,6 +431,10 @@ public class Board extends javax.swing.JFrame {
         lblNombreJuego = new javax.swing.JLabel();
         lbltemporizador = new javax.swing.JLabel();
         btnMusica = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        JListPreguntas = new javax.swing.JList<>();
+        jTextFieldCampoPreguntas = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -768,13 +778,15 @@ public class Board extends javax.swing.JFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jListNames);
@@ -806,7 +818,7 @@ public class Board extends javax.swing.JFrame {
 
         lblNombreJuego.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         lblNombreJuego.setForeground(new java.awt.Color(255, 0, 0));
-        lblNombreJuego.setText("Nombre del juego");
+        lblNombreJuego.setText("¿Quién será el personaje misterioso?");
 
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
@@ -817,7 +829,7 @@ public class Board extends javax.swing.JFrame {
                 .addComponent(lblPersonajeJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblNombreJugador)
-                .addGap(402, 402, 402)
+                .addGap(339, 339, 339)
                 .addComponent(lblNombreJuego)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblfecha)
@@ -850,6 +862,25 @@ public class Board extends javax.swing.JFrame {
                 btnMusicaActionPerformed(evt);
             }
         });
+
+        JListPreguntas.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        JListPreguntas.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                JListPreguntasComponentAdded(evt);
+            }
+        });
+        JListPreguntas.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                JListPreguntasValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(JListPreguntas);
+
+        jButton2.setText("Enviar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -908,34 +939,43 @@ public class Board extends javax.swing.JFrame {
                         .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lbltemporizador)
-                                .addGap(9, 9, 9)))
+                        .addGap(54, 54, 54)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonAzar, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lbltemporizador)
+                                .addGap(181, 181, 181)
+                                .addComponent(btnMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel25)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(52, 52, 52))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(21, 21, 21)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                    .addComponent(jButton1))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonAzar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(73, 73, 73))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel25)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52))))
+                        .addGap(88, 88, 88)
+                        .addComponent(jTextFieldCampoPreguntas, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -944,7 +984,7 @@ public class Board extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -983,25 +1023,30 @@ public class Board extends javax.swing.JFrame {
                                 .addGap(29, 29, 29)
                                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButtonInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(54, 54, 54)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonAzar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(265, 265, 265)
-                                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jButtonAzar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(32, 32, 32))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(btnMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lbltemporizador))))))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jScrollPane1))
+                                        .addGap(81, 81, 81)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextFieldCampoPreguntas, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton2))
+                                .addGap(6, 6, 6)
+                                .addComponent(btnMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbltemporizador)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1013,9 +1058,9 @@ public class Board extends javax.swing.JFrame {
         RNG();
         LlenarTabla();
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-    public void LlenarTabla(){
-                // Usaremos un ArrayList temporal para recolectar los nombres primero
+
+    public void LlenarTabla() {
+        // Usaremos un ArrayList temporal para recolectar los nombres primero
         List<String> nombresParaMostrar = new ArrayList<>();
 
         List<Personaje> todas = ConexionBD.obtenerTodasLosPersonajes();
@@ -1057,67 +1102,66 @@ public class Board extends javax.swing.JFrame {
         for (int i = 0; i < countToAdd; i++) {
             model.addElement(nombresParaMostrar.get(i));
         }
-    
+
     }
-    
+
     public void fliperino(JLabel clickedLabel) {
         String faceUpImageIdentifier = clickedLabel.getName(); // Get the stored face-up image name (e.g., "1", "2")
 
-    if (faceUpImageIdentifier == null || faceUpImageIdentifier.isEmpty()) {
-        System.out.println("JLabel has no assigned face-up image identifier.");
-        return;
-    }
+        if (faceUpImageIdentifier == null || faceUpImageIdentifier.isEmpty()) {
+            System.out.println("JLabel has no assigned face-up image identifier.");
+            return;
+        }
 
-    ImageIcon currentIcon = (ImageIcon) clickedLabel.getIcon();
-    String imageToLoadPath;
+        ImageIcon currentIcon = (ImageIcon) clickedLabel.getIcon();
+        String imageToLoadPath;
 
+        if (currentIcon != null && currentIcon.getDescription() != null
+                && currentIcon.getDescription().endsWith(BACK_POKER_IMAGE_PATH)) {
+            imageToLoadPath = "/Images/" + faceUpImageIdentifier + ".png";
+        } else {
 
-    if (currentIcon != null && currentIcon.getDescription() != null &&
-        currentIcon.getDescription().endsWith(BACK_POKER_IMAGE_PATH)) {
-        imageToLoadPath = "/Images/" + faceUpImageIdentifier + ".png";
-    } else {
-
-        imageToLoadPath = BACK_POKER_IMAGE_PATH;
-    }
+            imageToLoadPath = BACK_POKER_IMAGE_PATH;
+        }
 
         setAndScaleImage(clickedLabel, imageToLoadPath);
     }
-    
+
     private void setAndScaleImage(JLabel label, String imagePath) {
-    if (label == null) {
-        System.err.println("Attempted to set image on a null JLabel.");
-        return;
-    }
-    try {
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
-        if (originalIcon.getImageLoadStatus() == java.awt.MediaTracker.ERRORED) {
-             System.err.println("Error loading image: " + imagePath + ". Check if file exists and path is correct.");
-             
-             return;
+        if (label == null) {
+            System.err.println("Attempted to set image on a null JLabel.");
+            return;
         }
-        Image image = originalIcon.getImage();
-        Image scaledImage = image.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
-        // Store the imagePath as the description for future checks in fliperino
-        label.setIcon(new ImageIcon(scaledImage, imagePath));
-    } catch (NullPointerException e) {
-        // This usually happens if getResource returns null (image not found)
-        System.err.println("Image resource not found: " + imagePath);
-        // You might want to set a default "missing image" icon here
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
+            if (originalIcon.getImageLoadStatus() == java.awt.MediaTracker.ERRORED) {
+                System.err.println("Error loading image: " + imagePath + ". Check if file exists and path is correct.");
+
+                return;
+            }
+            Image image = originalIcon.getImage();
+            Image scaledImage = image.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+            // Store the imagePath as the description for future checks in fliperino
+            label.setIcon(new ImageIcon(scaledImage, imagePath));
+        } catch (NullPointerException e) {
+            // This usually happens if getResource returns null (image not found)
+            System.err.println("Image resource not found: " + imagePath);
+            // You might want to set a default "missing image" icon here
+        }
     }
-}
-    
+
     private void jLabelMouseClicked(java.awt.event.MouseEvent evt) {
-                JLabel clickedLabel = (JLabel) evt.getSource();
+        JLabel clickedLabel = (JLabel) evt.getSource();
         String faceUpImageName = clickedLabel.getName(); // This should be the '1', '2', etc.
 
         if (faceUpImageName != null && !faceUpImageName.isEmpty()) { // Added check for empty string
             System.out.println("Clicked on label. Assigned image name: " + faceUpImageName);
-            fliperino(clickedLabel); 
+            fliperino(clickedLabel);
         } else {
             System.out.println("This label has no assigned 'faceUpImageName' (from setName()).");
         }
     }
-    
+
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
 
@@ -1138,6 +1182,15 @@ public class Board extends javax.swing.JFrame {
         // TODO add your handling code here:
         Musica();
     }//GEN-LAST:event_btnMusicaActionPerformed
+
+    private void JListPreguntasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_JListPreguntasValueChanged
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_JListPreguntasValueChanged
+
+    private void JListPreguntasComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_JListPreguntasComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JListPreguntasComponentAdded
 
     /**
      * @param args the command line arguments
@@ -1170,14 +1223,16 @@ public class Board extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Board().setVisible(true);
-                
+
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> JListPreguntas;
     private javax.swing.JButton btnMusica;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAzar;
     private javax.swing.JButton jButtonInformation;
     private javax.swing.JLabel jLabel1;
@@ -1196,7 +1251,6 @@ public class Board extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
@@ -1235,6 +1289,8 @@ public class Board extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextFieldCampoPreguntas;
     private javax.swing.JLabel lblNombreJuego;
     private javax.swing.JLabel lblNombreJugador;
     private javax.swing.JLabel lblPersonajeJugador;
