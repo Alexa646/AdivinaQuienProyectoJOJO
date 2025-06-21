@@ -27,7 +27,7 @@ public class ConexionBD {
 
         try (Connection conn = conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) { // 'ResultSet' was not recognized without the import
+             ResultSet rs = stmt.executeQuery()) { 
 
             while (rs.next()) {
                 Personaje perso = new Personaje(

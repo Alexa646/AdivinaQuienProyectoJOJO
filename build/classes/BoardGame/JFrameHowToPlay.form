@@ -23,19 +23,15 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jLayeredPane1" max="32767" attributes="0"/>
+          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jLayeredPane1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -53,7 +49,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="943" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -63,56 +59,39 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel2">
+    <Container class="javax.swing.JLayeredPane" name="jLayeredPane1">
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jLabelBG" alignment="0" pref="1024" max="32767" attributes="0"/>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="145" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="733" max="-2" attributes="0"/>
-                      <EmptySpace pref="146" max="32767" attributes="0"/>
-                  </Group>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="0" pref="17" max="32767" attributes="0"/>
+                  <Component id="jTextArea1" min="-2" pref="910" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="17" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jLabelBG" alignment="0" pref="334" max="32767" attributes="0"/>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="258" max="-2" attributes="0"/>
-                      <EmptySpace pref="38" max="32767" attributes="0"/>
-                  </Group>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="0" pref="71" max="32767" attributes="0"/>
+                  <Component id="jTextArea1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="72" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-          <AuxValues>
-            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-          </AuxValues>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea1">
-              <Properties>
-                <Property name="editable" type="boolean" value="false"/>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="columns" type="int" value="20"/>
-                <Property name="rows" type="int" value="5"/>
-                <Property name="text" type="java.lang.String" value="El objetivo del juego es adivinar el personaje secreto de tu oponente antes de que &#xe9;l adivine el tuyo, &#xa;utilizando preguntas de s&#xed; o no.&#xa; &#xa; -Pasos para jugar:&#xa;&#x9;&#xb0;Preparaci&#xf3;n: Cada jugador elige un personaje secreto de su tablero. &#xa;&#x9;&#xb0;Turnos: Se toma turnos para hacer preguntas de s&#xed; o no sobre las caracter&#xed;sticas del personaje del oponente. &#xa;&#x9;&#xb0;Descartar opciones: El oponente responde con &quot;s&#xed;&quot; o &quot;no&quot;. El jugador que hizo la pregunta descarta los personajes &#xa;&#x9;que no coincidan con la respuesta. &#xa;&#x9;&#xb0;Adivinar: Cuando crees que sabes qui&#xe9;n es el personaje secreto del oponente, puedes adivinar. &#xa;&#x9;&#xb0;Ganador: Si adivinas correctamente, &#xa1;ganas! Si adivinas mal, pierdes.&#xa; &#xa;-Consejos para jugar:&#xa;&#x9;&#xb0;Haz preguntas inteligentes que ayuden a descartar r&#xe1;pidamente los personajes no deseados. &#xa;&#x9;&#xb0;Presta atenci&#xf3;n a las respuestas de tu oponente y utiliza la informaci&#xf3;n para hacer preguntas m&#xe1;s precisas. &#xa;&#x9;&#xb0;Aprende a identificar las caracter&#xed;sticas distintivas de los personajes para hacer preguntas m&#xe1;s efectivas. &#xa;"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Component class="javax.swing.JLabel" name="jLabelBG">
+        <Component class="javax.swing.JTextArea" name="jTextArea1">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="rows" type="int" value="5"/>
+            <Property name="text" type="java.lang.String" value="El objetivo del juego es adivinar el personaje secreto de tu oponente antes de que &#xe9;l adivine el tuyo, &#xa;utilizando preguntas de s&#xed; o no.&#xa; &#xa; -Pasos para jugar:&#xa;&#x9;&#xb0;Preparaci&#xf3;n: Cada jugador elige un personaje secreto de su tablero. &#xa;&#x9;&#xb0;Turnos: Se toma turnos para hacer preguntas de s&#xed; o no sobre las caracter&#xed;sticas del personaje del oponente. &#xa;&#x9;&#xb0;Descartar opciones: El oponente responde con &quot;s&#xed;&quot; o &quot;no&quot;. El jugador que hizo la pregunta descarta los personajes &#xa;&#x9;que no coincidan con la respuesta. &#xa;&#x9;&#xb0;Adivinar: Cuando crees que sabes qui&#xe9;n es el personaje secreto del oponente, puedes adivinar. &#xa;&#x9;&#xb0;Ganador: Si adivinas correctamente, &#xa1;ganas! Si adivinas mal, pierdes.&#xa; &#xa;-Consejos para jugar:&#xa;&#x9;&#xb0;Haz preguntas inteligentes que ayuden a descartar r&#xe1;pidamente los personajes no deseados. &#xa;&#x9;&#xb0;Presta atenci&#xf3;n a las respuestas de tu oponente y utiliza la informaci&#xf3;n para hacer preguntas m&#xe1;s precisas. &#xa;&#x9;&#xb0;Aprende a identificar las caracter&#xed;sticas distintivas de los personajes para hacer preguntas m&#xe1;s efectivas. &#xa;"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

@@ -142,7 +142,6 @@ public class Board extends javax.swing.JFrame {
                 label.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent evt) {
-                        // When a JLabel is clicked, call the fliperino method with the clicked JLabel
                         fliperino((JLabel) evt.getSource());
                     }
                 });
@@ -158,22 +157,14 @@ public class Board extends javax.swing.JFrame {
         ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
         Image image = originalIcon.getImage();
 
-        // Get the current width and height of the button
         int buttonWidth = jButtonInformation.getWidth();
         int buttonHeight = jButtonInformation.getHeight();
 
-        // Ensure the button has a size before trying to scale.
-        // If the button hasn't been laid out yet, its width/height might be 0.
-        // You might need to call this after the JFrame is visible or after a pack().
         if (buttonWidth == 0 || buttonHeight == 0) {
-            // As a fallback, you can set a default size or defer this call.
-            // For now, let's just make sure it's not 0 to avoid errors.
-            // A common practice is to call this after the frame is packed or set visible.
-            // For immediate setup, you might need to give the button preferred size or similar.
             System.out.println("Warning: jButtonInformation has 0 width or height. Icon might not scale correctly initially.");
-            // You can set a default size for scaling if the button isn't yet rendered
-            buttonWidth = 30; // Example default width
-            buttonHeight = 30; // Example default height
+     
+            buttonWidth = 30; 
+            buttonHeight = 30; 
         }
 
         Image scaledImage = image.getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
@@ -184,7 +175,7 @@ public class Board extends javax.swing.JFrame {
 }
     
     private void setDefaultImages() {
-        // Array of all JLabels you want to set the image for
+        
         labels = new JLabel[]{
             jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
             jLabel11, jLabel12, jLabel13, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18,
@@ -275,6 +266,18 @@ public class Board extends javax.swing.JFrame {
         jListNames = new javax.swing.JList<>();
         jButtonAzar = new javax.swing.JButton();
         jButtonInformation = new javax.swing.JButton();
+<<<<<<< Updated upstream
+=======
+        jPanel26 = new javax.swing.JPanel();
+        lblPersonajeJugador = new javax.swing.JLabel();
+        lblfecha = new javax.swing.JLabel();
+        lblNombreJugador = new javax.swing.JLabel();
+        lblNombreJuego = new javax.swing.JLabel();
+        lbltemporizador = new javax.swing.JLabel();
+        btnMusica = new javax.swing.JButton();
+        jLabel28 = new javax.swing.JLabel();
+        jButtonAsk = new javax.swing.JButton();
+>>>>>>> Stashed changes
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -627,6 +630,11 @@ public class Board extends javax.swing.JFrame {
                 .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        jListNames.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListNamesValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(jListNames);
 
         jButtonAzar.setText("Escoger al azar");
@@ -646,6 +654,74 @@ public class Board extends javax.swing.JFrame {
             }
         });
 
+<<<<<<< Updated upstream
+=======
+        lblfecha.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        lblfecha.setForeground(new java.awt.Color(255, 0, 0));
+        lblfecha.setText("fecha");
+
+        lblNombreJugador.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        lblNombreJugador.setForeground(new java.awt.Color(255, 0, 0));
+        lblNombreJugador.setText("nombre del jugador");
+
+        lblNombreJuego.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        lblNombreJuego.setForeground(new java.awt.Color(255, 0, 0));
+
+        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
+        jPanel26.setLayout(jPanel26Layout);
+        jPanel26Layout.setHorizontalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel26Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblPersonajeJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNombreJugador)
+                .addGap(402, 402, 402)
+                .addComponent(lblNombreJuego)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblfecha)
+                .addGap(19, 19, 19))
+        );
+        jPanel26Layout.setVerticalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel26Layout.createSequentialGroup()
+                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblfecha)
+                    .addComponent(lblNombreJugador))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel26Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblNombreJuego)
+                .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
+                .addComponent(lblPersonajeJugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        lbltemporizador.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        lbltemporizador.setForeground(new java.awt.Color(255, 0, 0));
+        lbltemporizador.setText("00:00");
+
+        btnMusica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/sonido.png"))); // NOI18N
+        btnMusica.setText("jButton2");
+        btnMusica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMusicaActionPerformed(evt);
+            }
+        });
+
+        jLabel28.setText("           Tu Personaje");
+
+        jButtonAsk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Question.png"))); // NOI18N
+        jButtonAsk.setToolTipText("");
+        jButtonAsk.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonAsk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAskActionPerformed(evt);
+            }
+        });
+
+>>>>>>> Stashed changes
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -706,6 +782,7 @@ public class Board extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+<<<<<<< Updated upstream
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -721,6 +798,40 @@ public class Board extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(52, 52, 52))))
+=======
+                        .addComponent(jLabel25)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbltemporizador)
+                                    .addGap(9, 9, 9)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(211, 211, 211)
+                                .addComponent(jButtonAzar)
+                                .addGap(67, 67, 67)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
+                                .addComponent(btnMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jButtonAsk, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(52, 52, 52))
+            .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+>>>>>>> Stashed changes
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -765,9 +876,11 @@ public class Board extends javax.swing.JFrame {
                                 .addGap(29, 29, 29)
                                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButtonInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(54, 54, 54)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+<<<<<<< Updated upstream
                                 .addComponent(jButtonAzar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(265, 265, 265)
                                 .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -778,6 +891,30 @@ public class Board extends javax.swing.JFrame {
                                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+=======
+                                .addGap(36, 36, 36)
+                                .addComponent(jButtonAsk, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(189, 189, 189)
+                                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(btnMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lbltemporizador)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButtonAzar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(13, 13, 13)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))))
+                .addContainerGap(21, Short.MAX_VALUE))
+>>>>>>> Stashed changes
         );
 
         pack();
@@ -907,6 +1044,92 @@ public class Board extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonInformationActionPerformed
 
+
+    private void btnMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMusicaActionPerformed
+        // TODO add your handling code here:
+        Musica();
+    }//GEN-LAST:event_btnMusicaActionPerformed
+
+    public String obtenerimagen(String charName)
+    {
+        List<Personaje> todas = ConexionBD.obtenerTodasLosPersonajes();
+        Personaje foundPersonaje = null;
+        if (todas != null) { 
+            for (Personaje p : todas) { 
+                if (p.getNombre().equals(charName)) {
+                    foundPersonaje = p; 
+                    break; 
+                }
+            }
+        }
+        
+        if(foundPersonaje != null)
+        {
+            int charId = foundPersonaje.getID();
+            String match = charId + "";
+            System.out.print(match);
+            return match;
+        }
+        
+        return null;
+    }
+    
+    private void jListNamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListNamesValueChanged
+        if (!evt.getValueIsAdjusting()) {
+        String selectedCharacterName = jListNames.getSelectedValue();
+
+        if (selectedCharacterName != null) {
+
+            String characterIdString = obtenerimagen(selectedCharacterName); 
+
+            if (characterIdString != null) {
+              
+                String imagePath = "/Images/" + characterIdString + ".png"; 
+                System.out.println("DEBUG: Intentando cargar imagen desde: " + imagePath); 
+
+                ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
+
+                if (originalIcon.getImageLoadStatus() == java.awt.MediaTracker.ERRORED) {
+                    System.err.println("Error al cargar la imagen: " + imagePath);
+
+                } else {
+                    Image image = originalIcon.getImage(); 
+                    if (labels[24] != null && labels[24].getWidth() > 0 && labels[24].getHeight() > 0) {
+                        Image scaledImageForLabel24 = image.getScaledInstance(
+                            labels[24].getWidth(),
+                            labels[24].getHeight(),
+                            Image.SCALE_SMOOTH
+                        );
+                        labels[24].setIcon(new ImageIcon(scaledImageForLabel24));
+                    } else {
+                        System.err.println("labels[24] (jLabel26) no está inicializado o no tiene dimensiones válidas para escalar.");
+                    }
+
+                    if (lblPersonajeJugador != null && lblPersonajeJugador.getWidth() > 0 && lblPersonajeJugador.getHeight() > 0) {
+                        Image scaledImageForPlayer = image.getScaledInstance(
+                            lblPersonajeJugador.getWidth(),
+                            lblPersonajeJugador.getHeight(),
+                            Image.SCALE_SMOOTH
+                        );
+                        lblPersonajeJugador.setIcon(new ImageIcon(scaledImageForPlayer));
+                    } else {
+                        System.err.println("lblPersonajeJugador no está inicializado o no tiene dimensiones válidas para escalar.");
+                    }
+                }
+            } else {
+                System.out.println("No se pudo obtener el ID del personaje: " + selectedCharacterName + ". ¿Existe en la BD?");
+            }
+        } else {
+            System.out.println("No se ha seleccionado ningún elemento de la lista.");
+        }
+    }
+    }//GEN-LAST:event_jListNamesValueChanged
+
+    private void jButtonAskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAskActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonAskActionPerformed
+
+
     /**
      * @param args the command line arguments
      */
@@ -945,6 +1168,7 @@ public class Board extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonAsk;
     private javax.swing.JButton jButtonAzar;
     private javax.swing.JButton jButtonInformation;
     private javax.swing.JLabel jLabel1;
@@ -967,6 +1191,7 @@ public class Board extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

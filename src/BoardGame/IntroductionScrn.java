@@ -48,11 +48,11 @@ public IntroductionScrn() {
 
         JPaneBackground = new javax.swing.JPanel();
         jButtonEmpezar = new javax.swing.JButton();
+        jButtonCreditos = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabelBG = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,21 +66,36 @@ public IntroductionScrn() {
             }
         });
 
+        jButtonCreditos.setFont(new java.awt.Font("Comic Sans MS", 1, 24)); // NOI18N
+        jButtonCreditos.setText("Creditos");
+        jButtonCreditos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCreditosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout JPaneBackgroundLayout = new javax.swing.GroupLayout(JPaneBackground);
         JPaneBackground.setLayout(JPaneBackgroundLayout);
         JPaneBackgroundLayout.setHorizontalGroup(
             JPaneBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JPaneBackgroundLayout.createSequentialGroup()
-                .addGap(407, 407, 407)
-                .addComponent(jButtonEmpezar, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(444, Short.MAX_VALUE))
+                .addGroup(JPaneBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JPaneBackgroundLayout.createSequentialGroup()
+                        .addGap(407, 407, 407)
+                        .addComponent(jButtonEmpezar, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JPaneBackgroundLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButtonCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         JPaneBackgroundLayout.setVerticalGroup(
             JPaneBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JPaneBackgroundLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(jButtonEmpezar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addComponent(jButtonCreditos, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -105,17 +120,6 @@ public IntroductionScrn() {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -123,8 +127,6 @@ public IntroductionScrn() {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(417, 417, 417)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -138,10 +140,6 @@ public IntroductionScrn() {
                 .addContainerGap(141, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(114, 114, 114))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -174,6 +172,12 @@ public IntroductionScrn() {
         board.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonEmpezarActionPerformed
+
+    private void jButtonCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreditosActionPerformed
+        // TODO add your handling code here:
+        JFrameCredits Howto = new JFrameCredits();
+        Howto.setVisible(true);
+    }//GEN-LAST:event_jButtonCreditosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,11 +216,11 @@ public IntroductionScrn() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPaneBackground;
+    private javax.swing.JButton jButtonCreditos;
     private javax.swing.JButton jButtonEmpezar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelBG;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }
