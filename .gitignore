@@ -1,2 +1,6 @@
+# Archivos de build y clases generadas (Java)
+build/
+dist/
+
 # Ignorar archivos privados de NetBeans
 nbproject/private/
