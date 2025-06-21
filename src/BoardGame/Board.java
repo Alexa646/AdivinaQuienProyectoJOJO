@@ -27,7 +27,7 @@ public class Board extends javax.swing.JFrame {
     
      private javax.swing.Timer timer;
     private int segundosTranscurridos = 0;
-
+    private ChatClient activeChatClient;
     private boolean musicaReproduciendo = false;
     private Clip clip;
     private long posicionPausa = 0; // Guarda la posición cuando se pausa
@@ -181,6 +181,18 @@ public class Board extends javax.swing.JFrame {
         iniciarTemporizador();
         //lblNombreJugadorsetText("Jugador: " + nombreJugador);
         cargarMusica();
+    }
+                                            
+
+    // El método que envía mensajes al chat (que ya hemos agregado)
+    public void sendGameMessage(String message) {
+        if (activeChatClient != null && activeChatClient.frame.isVisible()) {
+            activeChatClient.sendMessage("[Juego]: " + message); // Puedes personalizar el prefijo
+        } else {
+            System.out.println("No se pudo enviar el mensaje del juego: El chat no está activo.");
+            // Opcional: podrías mostrar un JOptionPane si el chat no está abierto
+            // JOptionPane.showMessageDialog(this, "El chat no está abierto.", "Error de Envío", JOptionPane.WARNING_MESSAGE);
+        }
     }
     
     private void scaleInformationButtonIcon() {
@@ -429,6 +441,8 @@ public class Board extends javax.swing.JFrame {
         jButtonQuestion = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
+        jButtonYes = new javax.swing.JButton();
+        jButtonNo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -881,6 +895,24 @@ public class Board extends javax.swing.JFrame {
         jLabel28.setFont(new java.awt.Font("Comic Sans MS", 3, 15)); // NOI18N
         jLabel28.setText("   Personaje escogido");
 
+        jButtonYes.setBackground(new java.awt.Color(204, 255, 204));
+        jButtonYes.setFont(new java.awt.Font("Comic Sans MS", 3, 18)); // NOI18N
+        jButtonYes.setText("SI");
+        jButtonYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonYesActionPerformed(evt);
+            }
+        });
+
+        jButtonNo.setBackground(new java.awt.Color(255, 102, 102));
+        jButtonNo.setFont(new java.awt.Font("Comic Sans MS", 3, 18)); // NOI18N
+        jButtonNo.setText("NO");
+        jButtonNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -943,24 +975,6 @@ public class Board extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(68, 68, 68)
-                                .addComponent(jButton1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(52, 52, 52)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jButtonQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButtonChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(26, 26, 26)
-                                        .addComponent(jButtonAzar, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -969,11 +983,36 @@ public class Board extends javax.swing.JFrame {
                                         .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(284, 284, 284)))
                                 .addComponent(lbltemporizador)
-                                .addGap(60, 60, 60)))
+                                .addGap(60, 60, 60))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(52, 52, 52)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(jButtonQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(jButtonChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(26, 26, 26)
+                                                .addComponent(jButtonAzar, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(68, 68, 68)
+                                        .addComponent(jButton1)
+                                        .addGap(43, 43, 43)
+                                        .addComponent(jButtonYes, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButtonNo, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(0, 0, 0)
                         .addComponent(btnMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel25)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                         .addComponent(jButtonInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1026,7 +1065,12 @@ public class Board extends javax.swing.JFrame {
                                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButtonInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jButtonYes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButtonAzar, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
@@ -1049,7 +1093,7 @@ public class Board extends javax.swing.JFrame {
                                 .addComponent(jLabel28)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addGap(56, 56, 56))
         );
 
         pack();
@@ -1263,23 +1307,34 @@ public class Board extends javax.swing.JFrame {
     }//GEN-LAST:event_jListNamesValueChanged
 
     private void jButtonChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChatActionPerformed
-        // TODO add your handling code here:
-        ChatClient chatto;
-         chatto = new ChatClient();
+        if (activeChatClient == null || !activeChatClient.frame.isVisible()) {
+            activeChatClient = new ChatClient();
+            activeChatClient.frame.setVisible(true);
+            new Thread(() -> {
+                activeChatClient.run();
+            }).start();
+        } else {
+            activeChatClient.frame.toFront();
+            activeChatClient.frame.requestFocus();
+        }
 
-    // Haz que la ventana del ChatClient sea visible
-    chatto.frame.setVisible(true); // Usamos chatto.frame para acceder directamente al JFrame interno
-
-    // Inicia la lógica de conexión y comunicación del chat en un nuevo hilo
-    // Esto es CRUCIAL para no congelar la interfaz de usuario
-    new Thread(() -> {
-        chatto.run();
-    }).start();
     }//GEN-LAST:event_jButtonChatActionPerformed
 
     private void jButtonQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuestionActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButtonQuestionActionPerformed
+
+    private void jButtonYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonYesActionPerformed
+        // TODO add your handling code here:
+        sendGameMessage("¡SÍ!");
+        
+    }//GEN-LAST:event_jButtonYesActionPerformed
+
+    private void jButtonNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNoActionPerformed
+        // TODO add your handling code here:
+        sendGameMessage("¡NO!");
+    }//GEN-LAST:event_jButtonNoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1324,7 +1379,9 @@ public class Board extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAzar;
     private javax.swing.JButton jButtonChat;
     private javax.swing.JButton jButtonInformation;
+    private javax.swing.JButton jButtonNo;
     private javax.swing.JButton jButtonQuestion;
+    private javax.swing.JButton jButtonYes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
