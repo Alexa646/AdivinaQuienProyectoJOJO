@@ -3,7 +3,7 @@ package BoardGame;
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
-import java.util.concurrent.Semaphore; // Importar Semaphore para getUserName
+import java.util.concurrent.Semaphore; 
 
 public class ChatClient {
     
@@ -17,6 +17,8 @@ public class ChatClient {
     
     private JTextArea messageArea = new JTextArea(20, 50);
     private JTextField textField = new JTextField(40);
+    
+     private Board boardReference;
 
     // Constructor existente
     public ChatClient() {
@@ -33,6 +35,11 @@ public class ChatClient {
             textField.setText("");
         });
     }
+    
+    public void setBoardReference(Board board) {
+        this.boardReference = board;
+    }
+    
 
     // =========================================================================
     // ¡NUEVO MÉTODO PARA ENVIAR MENSAJES PROGRAMÁTICAMENTE!
@@ -111,13 +118,36 @@ public class ChatClient {
                     });
                     break;
                 }
-                if (line.startsWith("SUBMITNAME")) {
-                    String name = getUserName(); 
+                
+                // =============================================================
+                // ¡Manejar comandos especiales aquí!
+                // =============================================================
+                if (line.startsWith("/CMD_SEED ")) {
+                    try {
+                        long receivedSeed = Long.parseLong(line.substring("/CMD_SEED ".length()));
+                        // Llamar a un método en Board para usar esta semilla
+                        // Esto requiere una referencia a la instancia de Board
+                        // SOLUCIÓN: Pasar una referencia al Board al ChatClient
+                        SwingUtilities.invokeLater(() -> { // Asegurarse de que esto se ejecuta en el EDT
+                            messageArea.append("[Sistema]: Semilla recibida: " + receivedSeed + "\n");
+                            // Llamar al método en el Board para aplicar la semilla
+                            // Necesitas una forma de pasar la referencia del Board al ChatClient
+                            if (boardReference != null) { // boardReference es una nueva variable que definiremos
+                                boardReference.applyReceivedSeed(receivedSeed);
+                            }
+                        });
+                    } catch (NumberFormatException e) {
+                        SwingUtilities.invokeLater(() -> messageArea.append("[Sistema]: Error al parsear semilla: " + line + "\n"));
+                    }
+                }
+                // =============================================================
+                else if (line.startsWith("SUBMITNAME")) {
+                    String name = getUserName();
                     if (name != null && !name.trim().isEmpty()) {
                         out.println(name);
                     } else {
                         SwingUtilities.invokeLater(() -> messageArea.append("Nombre de usuario no proporcionado. Desconectando.\n"));
-                        break; 
+                        break;
                     }
                 } else if (line.startsWith("NAMEACCEPTED")) {
                     SwingUtilities.invokeLater(() -> {
@@ -125,14 +155,14 @@ public class ChatClient {
                         messageArea.append("Nombre aceptado. ¡Bienvenido al chat!\n");
                     });
                 } else {
-                    String finalLine = line; 
+                    String finalLine = line;
                     SwingUtilities.invokeLater(() -> messageArea.append(finalLine + "\n"));
                 }
             }
         } catch (IOException e) {
             SwingUtilities.invokeLater(() -> {
                 messageArea.append("Error de conexión: " + e.getMessage() + "\n");
-                textField.setEditable(false); 
+                textField.setEditable(false);
             });
             System.err.println("Error de conexión: " + e.getMessage());
             e.printStackTrace();
@@ -141,8 +171,8 @@ public class ChatClient {
                 if (in != null) in.close();
                 if (out != null) out.close();
                 SwingUtilities.invokeLater(() -> {
-                    if (frame.isVisible()) { 
-                        frame.dispose(); 
+                    if (frame.isVisible()) {
+                        frame.dispose();
                     }
                 });
             } catch (IOException e) {
@@ -150,10 +180,6 @@ public class ChatClient {
             }
         }
     }
+    
 
-    public static void main(String[] args) {
-        ChatClient client = new ChatClient();
-        client.frame.setVisible(true); 
-        new Thread(() -> client.run()).start();
-    }
 }

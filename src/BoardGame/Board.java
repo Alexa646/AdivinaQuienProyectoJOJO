@@ -21,6 +21,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.Timer;
+import javax.swing.JButton; 
 
 public class Board extends javax.swing.JFrame {
     
@@ -37,85 +38,94 @@ public class Board extends javax.swing.JFrame {
     private static final String BACK_POKER_IMAGE_PATH = "/Images/BackPoker.jpg";
     private JLabel[] labels;
     
-    public void RNG()
-    {
-        
-        labels = new JLabel[]{
-        jLabel1,jLabel2,jLabel3,jLabel4,jLabel5,jLabel6,jLabel7,jLabel8,jLabel9,jLabel10,
-        jLabel11, jLabel12,jLabel13,jLabel14,jLabel15,jLabel16,jLabel17,jLabel18,
-        jLabel19,jLabel20,jLabel21,jLabel22,jLabel23,jLabel26,jLabel27
-        };
+    private boolean gameStarted = false; // Indica si el juego ya ha sido iniciado por alguna semilla
+    
+    public void RNG() {
+    RNG(System.nanoTime()); // Llama al nuevo RNG con una semilla aleatoria por defecto
+}
 
-        // Creating an empty ArrayList of string type 
-        mylist = new ArrayList<String>(); 
-  
-        // Adding custom input elements to list object 
-        mylist.add("1"); 
-        mylist.add("2"); 
-        mylist.add("3"); 
-        mylist.add("4"); 
-        mylist.add("5"); 
-        mylist.add("6"); 
-        mylist.add("7");
-        mylist.add("8");
-        mylist.add("9");
-        mylist.add("10");
-        mylist.add("11");
-        mylist.add("12");
-        mylist.add("13");
-        mylist.add("14");
-        mylist.add("15");
-        mylist.add("16");
-        mylist.add("17");
-        mylist.add("18");
-        mylist.add("19");
-        mylist.add("20");
-        mylist.add("21");
-        mylist.add("22");
-        mylist.add("23");
-        mylist.add("24");
-        mylist.add("25");
-        mylist.add("26");
-        mylist.add("27");
-        mylist.add("28");
-        mylist.add("29");
-        mylist.add("30");
-        mylist.add("31");
-        mylist.add("32");
-        mylist.add("33");
-        mylist.add("34");
-        
+public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
+    labels = new JLabel[]{
+        jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
+        jLabel11, jLabel12, jLabel13, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18,
+        jLabel19, jLabel20, jLabel21, jLabel22, jLabel23, jLabel26, jLabel27
+    };
 
-        System.out.println("Original List : \n" + mylist); 
-  
-        // Shuffling the list 
-        Collections.shuffle(mylist); 
-  
-   
-        System.out.println("\nShuffled List : \n" + mylist); 
-        Random r= new Random();
-        int r1 = r.nextInt(24);
-        for (int i = 0; i < 24; i++) {
-            System.out.println("Valor de i: " + i);
-            String imagePath = "/Images/" + mylist.get(i) + ".png";
-            String imageIdentifier = mylist.get(i);
-            ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
-            Image image = originalIcon.getImage();
-            Image scaledImage = image.getScaledInstance(labels[i].getWidth(), labels[i].getHeight(), Image.SCALE_SMOOTH);
-            labels[i].setIcon(new ImageIcon(scaledImage));
-            labels[i].setName(imageIdentifier); 
-            /* no lo descomente esto es solo para activar aleatorio de pruba al presionar iniciar
-            if(r1==i)
-            {
-                originalIcon = new ImageIcon(getClass().getResource(imagePath));
-                image = originalIcon.getImage();
-                scaledImage = image.getScaledInstance(labels[24].getWidth(), labels[24].getHeight(), Image.SCALE_SMOOTH);
-                labels[24].setIcon(new ImageIcon(scaledImage));
-            }
-            */
+    mylist = new ArrayList<String>();
+    // ... (rellena mylist del 1 al 34 como lo tienes) ...
+    mylist.add("1");
+    mylist.add("2");
+    mylist.add("3");
+    mylist.add("4");
+    mylist.add("5");
+    mylist.add("6");
+    mylist.add("7");
+    mylist.add("8");
+    mylist.add("9");
+    mylist.add("10");
+    mylist.add("11");
+    mylist.add("12");
+    mylist.add("13");
+    mylist.add("14");
+    mylist.add("15");
+    mylist.add("16");
+    mylist.add("17");
+    mylist.add("18");
+    mylist.add("19");
+    mylist.add("20");
+    mylist.add("21");
+    mylist.add("22");
+    mylist.add("23");
+    mylist.add("24");
+    mylist.add("25");
+    mylist.add("26");
+    mylist.add("27");
+    mylist.add("28");
+    mylist.add("29");
+    mylist.add("30");
+    mylist.add("31");
+    mylist.add("32");
+    mylist.add("33");
+    mylist.add("34");
+    // ... hasta mylist.add("34");
+
+    System.out.println("Original List : \n" + mylist);
+
+    // =================================================================
+    // ¡Cambio clave aquí! Usa la semilla para Collections.shuffle
+    // =================================================================
+    Collections.shuffle(mylist, new Random(seed)); // Baraja usando la semilla
+
+    System.out.println("\nShuffled List (with seed " + seed + "): \n" + mylist);
+
+    // =================================================================
+    // Usa la misma semilla para el Random r para la imagen del "chus" (si aplica)
+    // =================================================================
+    Random r = new Random(seed); // Usa la misma semilla
+    int r1 = r.nextInt(24);
+
+    for (int i = 0; i < 24; i++) {
+        System.out.println("Valor de i: " + i);
+        String imagePath = "/Images/" + mylist.get(i) + ".png";
+        String imageIdentifier = mylist.get(i);
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
+        Image image = originalIcon.getImage();
+        Image scaledImage = image.getScaledInstance(labels[i].getWidth(), labels[i].getHeight(), Image.SCALE_SMOOTH);
+        labels[i].setIcon(new ImageIcon(scaledImage));
+        labels[i].setName(imageIdentifier);
+
+        if (r1 == i) { // Esta es tu lógica para el lblPersonajeJugador (el "chus")
+            ImageIcon personajeIcon = new ImageIcon(getClass().getResource(imagePath));
+            Image personajeImg = personajeIcon.getImage();
+            Image scaledPersonaje = personajeImg.getScaledInstance(
+                    lblPersonajeJugador.getWidth(),
+                    lblPersonajeJugador.getHeight(),
+                    Image.SCALE_SMOOTH
+            );
+            lblPersonajeJugador.setIcon(new ImageIcon(scaledPersonaje));
         }
-        
     }
+}
     
     public void RNGchus()
     {
@@ -181,9 +191,23 @@ public class Board extends javax.swing.JFrame {
         iniciarTemporizador();
         //lblNombreJugadorsetText("Jugador: " + nombreJugador);
         cargarMusica();
+        jButton1.setEnabled(true); 
     }
                                             
 
+    public void applyReceivedSeed(long seed) {
+        if (!gameStarted) { // Solo aplica la semilla si el juego no ha sido iniciado localmente
+            System.out.println("Board recibió semilla del chat: " + seed);
+            RNG(seed); // Llama a tu función RNG con la semilla recibida
+            LlenarTabla(); // Vuelve a llenar la tabla
+            gameStarted = true; // Marca el juego como iniciado
+            jButton1.setEnabled(false); // Deshabilita el botón de "Comenzar" para evitar que se genere otra semilla
+            // Opcional: podrías mostrar un mensaje en la UI para el usuario indicando que el juego ha comenzado.
+        } else {
+            System.out.println("El juego ya está iniciado. Ignorando semilla recibida: " + seed);
+        }
+    }
+    
     // El método que envía mensajes al chat (que ya hemos agregado)
     public void sendGameMessage(String message) {
         if (activeChatClient != null && activeChatClient.frame.isVisible()) {
@@ -1100,9 +1124,26 @@ public class Board extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        RNG();
-        LlenarTabla();
+        if (!gameStarted) { // Solo si el juego no ha comenzado
+            long currentSeed = System.nanoTime(); // Genera una semilla única solo si eres el primero
+            RNG(currentSeed); // Llama a RNG con la semilla
+            LlenarTabla();
+            
+            // Marca el juego como iniciado para esta instancia y las demás si reciben la semilla
+            gameStarted = true; 
+            jButton1.setEnabled(false); // Deshabilita el botón una vez que se ha iniciado
+
+            if (activeChatClient != null && activeChatClient.frame.isVisible()) {
+                activeChatClient.sendMessage("/CMD_SEED " + currentSeed);
+                System.out.println("Enviando semilla al chat: " + currentSeed);
+            } else {
+                System.out.println("Chat no activo, no se pudo enviar la semilla.");
+                // Opcional: Puedes decidir si el juego se inicia solo localmente si el chat no está abierto.
+                // En este caso, gameStarted ya es true, así que no se generaría otra semilla.
+            }
+        } else {
+            System.out.println("El juego ya ha sido iniciado con una semilla. No se generará una nueva.");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     
     public void LlenarTabla(){
@@ -1308,18 +1349,25 @@ public class Board extends javax.swing.JFrame {
 
     private void jButtonChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChatActionPerformed
         if (activeChatClient == null || !activeChatClient.frame.isVisible()) {
-            activeChatClient = new ChatClient();
-            activeChatClient.frame.setVisible(true);
-            new Thread(() -> {
-                activeChatClient.run();
-            }).start();
-        } else {
-            activeChatClient.frame.toFront();
-            activeChatClient.frame.requestFocus();
-        }
+        activeChatClient = new ChatClient();
+        
+        // =============================================================
+        // ¡Pasa la referencia de esta instancia de Board al ChatClient!
+        activeChatClient.setBoardReference(this); 
+        // =============================================================
 
+        activeChatClient.frame.setVisible(true);
+
+        new Thread(() -> {
+            activeChatClient.run();
+        }).start();
+    } else {
+        activeChatClient.frame.toFront();
+        activeChatClient.frame.requestFocus();
+    }
     }//GEN-LAST:event_jButtonChatActionPerformed
 
+    
     private void jButtonQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuestionActionPerformed
         // TODO add your handling code here:
         
