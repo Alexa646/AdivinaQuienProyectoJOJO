@@ -1,3 +1,4 @@
+package BoardGame;
 import java.io.*;
 import java.net.*;
 import javax.swing.*; // Opcional: para una interfaz gráfica simple
@@ -9,7 +10,7 @@ public class ChatClient {
 
     private BufferedReader in;
     private PrintWriter out;
-    private JFrame frame = new JFrame("Chat de Java");
+    JFrame frame = new JFrame("Chat de Java");
     private JTextArea messageArea = new JTextArea(20, 50);
     private JTextField textField = new JTextField(40);
 
