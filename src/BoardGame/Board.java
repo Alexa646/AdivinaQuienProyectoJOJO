@@ -124,6 +124,7 @@ public class Board extends javax.swing.JFrame {
                         Image.SCALE_SMOOTH
                 );
                 lblPersonajeJugador.setIcon(new ImageIcon(scaledPersonaje));
+                lblPersonajeJugador.putClientProperty("imageId", imageIdentifier);
             }
         }
     }
@@ -1401,7 +1402,7 @@ public class Board extends javax.swing.JFrame {
                 if (characterIdString != null) {
 
                     String imagePath = "/Images/" + characterIdString + ".png";
-                    System.out.println("DEBUG: Intentando cargar imagen desde: " + imagePath);
+                    System.out.println("Intando cargar imagen desde: " + imagePath);
 
                     ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
 
@@ -1540,6 +1541,29 @@ public class Board extends javax.swing.JFrame {
             // jButtonHit.setEnabled(false); // Puede que ya esté deshabilitado desde el ActionListener del botón.
         });
     }
+    
+    public String obtenerNombrePersonajePorId(int idImagen) {
+        // 1. Obtener todos los personajes de la base de datos
+    // Asumimos que ConexionBD.obtenerTodasLosPersonajes() devuelve una List<Personaje>
+    List<Personaje> todosLosPersonajes = ConexionBD.obtenerTodasLosPersonajes();
+
+    // 2. Verificar si se obtuvieron personajes
+    if (todosLosPersonajes != null) {
+        // 3. Iterar sobre la lista de personajes
+        for (Personaje personaje : todosLosPersonajes) {
+            // 4. Comparar el ID de la imagen con el ID del personaje
+            if (personaje.getID() == idImagen) {
+                // 5. Si coinciden, devolver el nombre del personaje
+                return personaje.getNombre();
+            }
+        }
+    }
+
+    // 6. Si no se encuentra ningún personaje con ese ID, devolver null
+    // También podrías lanzar una excepción o devolver una cadena vacía,
+    // dependiendo de cómo quieras manejar este caso.
+    return null;
+    }
 
     private void jButtonHitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHitActionPerformed
         // TODO add your handling code here:
@@ -1551,9 +1575,52 @@ public class Board extends javax.swing.JFrame {
                 jButtonHit.setEnabled(false); // Deshabilita el botón después del clic
                 sendGameMessage("Su oponente a confirmo que adivino el personaje correcto");
                 sendGameMessage("Presione el boton Gane para tomar su victoria");
-                PerdedorJFrame board = new PerdedorJFrame();
-                board.setVisible(true);
-                this.dispose();
+    String fecha = lblfecha.getText();
+    String tiempo = lbltemporizador.getText();
+    String namae = activeChatClient.getMyUserName();
+    String ganador = "no";
+
+    // Variable para almacenar el nombre del personaje, con un valor por defecto
+    String nombreDelPersonajeGanador = "Desconocido"; 
+
+    // 1. Obtener el ID de la imagen (que es el ID del personaje) desde lblPersonajeJugador
+    //    Usamos la función que creamos para esto.
+    String idPersonajeStr = obtenerIdImagenDesdeJLabel(lblPersonajeJugador);
+
+    if (idPersonajeStr != null) {
+        try {
+            // 2. Convertir el ID de String a int
+            int idPersonaje = Integer.parseInt(idPersonajeStr);
+            
+            // 3. Llamar a tu función existente para obtener el nombre del personaje desde la BD
+            String nombreRecuperado = obtenerNombrePersonajePorId(idPersonaje);
+
+            if (nombreRecuperado != null) {
+                nombreDelPersonajeGanador = nombreRecuperado;
+            } else {
+                System.err.println("Error: No se encontró un personaje en la base de datos para el ID: " + idPersonaje);
+            }
+
+        } catch (NumberFormatException e) {
+            System.err.println("Error: El ID de la imagen recuperado de lblPersonajeJugador ('" + idPersonajeStr + "') no es un número válido.");
+            // Aquí podrías considerar mostrar un mensaje al usuario o registrar el error
+        }
+    } else {
+        System.err.println("Advertencia: No se pudo obtener el ID de la imagen de lblPersonajeJugador. ¿Se estableció el client property 'imageId' al cargar la imagen?");
+    }
+
+    // A partir de aquí, 'nombreDelPersonajeGanador' contendrá el nombre real del personaje
+    // o "Desconocido" si hubo algún problema.
+
+    sendGameMessage(fecha);
+    sendGameMessage(tiempo);
+    sendGameMessage(namae);
+    // Ahora enviamos el nombre del personaje al chat
+    //sendGameMessage("El personaje ganador es: " + nombreDelPersonajeGanador); 
+
+    ganadorJFrame GanadorFrame = new ganadorJFrame();
+    GanadorFrame.setVisible(true);
+    this.dispose();
                 System.out.println("DEBUG: Se envió /CMD_HIT " + myUserName + " al servidor.");
             } else {
                 System.err.println("Error: No se pudo obtener el nombre de usuario para enviar /CMD_HIT.");
@@ -1565,11 +1632,75 @@ public class Board extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonHitActionPerformed
 
+    public String obtenerIdImagenDesdeJLabel(JLabel label) {
+    if (label == null) {
+        System.err.println("Error: JLabel proporcionado es nulo.");
+        return null;
+    }
+
+    // Attempt to retrieve the "imageId" client property
+    Object imageIdObj = label.getClientProperty("imageId");
+
+    if (imageIdObj instanceof String) {
+        // If it's a String (which it should be if you set it as shown above)
+        return (String) imageIdObj;
+    } else if (imageIdObj != null) {
+        // If it's not a String but exists, it's an unexpected type
+        System.err.println("Advertencia: El client property 'imageId' en " + label.getName() + " no es de tipo String. Tipo: " + imageIdObj.getClass().getName());
+    } else {
+        // If the property doesn't exist
+        System.out.println("No se encontró el client property 'imageId' en " + label.getName() + ". Asegúrate de configurarlo al cargar la imagen.");
+    }
+    return null; // Return null if the ID couldn't be retrieved
+}
+    
     private void jButtonYayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonYayActionPerformed
-        // TODO add your handling code here:
-        GanadorJFrame board = new GanadorJFrame();
-        board.setVisible(true);
-        this.dispose();
+      String fecha = lblfecha.getText();
+    String tiempo = lbltemporizador.getText();
+    String namae = activeChatClient.getMyUserName();
+    String ganador = "si";
+
+    // Variable para almacenar el nombre del personaje, con un valor por defecto
+    String nombreDelPersonajeGanador = "Desconocido"; 
+
+    // 1. Obtener el ID de la imagen (que es el ID del personaje) desde lblPersonajeJugador
+    //    Usamos la función que creamos para esto.
+    String idPersonajeStr = obtenerIdImagenDesdeJLabel(lblPersonajeJugador);
+
+    if (idPersonajeStr != null) {
+        try {
+            // 2. Convertir el ID de String a int
+            int idPersonaje = Integer.parseInt(idPersonajeStr);
+            
+            // 3. Llamar a tu función existente para obtener el nombre del personaje desde la BD
+            String nombreRecuperado = obtenerNombrePersonajePorId(idPersonaje);
+
+            if (nombreRecuperado != null) {
+                nombreDelPersonajeGanador = nombreRecuperado;
+            } else {
+                System.err.println("Error: No se encontró un personaje en la base de datos para el ID: " + idPersonaje);
+            }
+
+        } catch (NumberFormatException e) {
+            System.err.println("Error: El ID de la imagen recuperado de lblPersonajeJugador ('" + idPersonajeStr + "') no es un número válido.");
+            // Aquí podrías considerar mostrar un mensaje al usuario o registrar el error
+        }
+    } else {
+        System.err.println("Advertencia: No se pudo obtener el ID de la imagen de lblPersonajeJugador. ¿Se estableció el client property 'imageId' al cargar la imagen?");
+    }
+
+    // A partir de aquí, 'nombreDelPersonajeGanador' contendrá el nombre real del personaje
+    // o "Desconocido" si hubo algún problema.
+
+    sendGameMessage(fecha);
+    sendGameMessage(tiempo);
+    sendGameMessage(namae);
+    // Ahora enviamos el nombre del personaje al chat
+    //sendGameMessage("El personaje ganador es: " + nombreDelPersonajeGanador); 
+
+    ganadorJFrame GanadorFrame = new ganadorJFrame();
+    GanadorFrame.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_jButtonYayActionPerformed
 
     /**
