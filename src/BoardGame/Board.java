@@ -165,7 +165,7 @@ public class Board extends javax.swing.JFrame {
     }
 
     public void applyReceivedSeed(long seed) {
-        if (!gameStarted) { // Solo aplica la semilla si el juego no ha sido iniciado
+        if (!gameStarted) { 
             System.out.println("Board aplicando semilla: " + seed);
             RNG(seed); // Llama a tu función RNG con la semilla recibida
             LlenarTabla(); // Vuelve a llenar la tabla con el nuevo orden
