@@ -22,6 +22,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.Timer;
 import javax.swing.JButton; 
+import javax.swing.JOptionPane;
 
 public class Board extends javax.swing.JFrame {
     
@@ -127,6 +128,56 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
     }
 }
     
+
+    private void applySeedFromTextField() {
+    if (gameStarted) {
+        JOptionPane.showMessageDialog(this, "El juego ya está iniciado. No se puede aplicar una nueva semilla manualmente.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    String seedText = jTextFieldSeed.getText();
+    if (seedText.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingresa una semilla en el campo.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        long manualSeed = Long.parseLong(seedText);
+        System.out.println("Aplicando semilla manual desde JTextField: " + manualSeed);
+
+        // Llamar a la lógica de tu tablero para aplicar esta semilla.
+        // Reutilizamos applyReceivedSeed porque ya maneja la lógica de RNG y el estado.
+        applyReceivedSeed(manualSeed);
+
+        // Opcional: Una vez aplicada, puedes limpiar el campo o dejarla visible.
+        // Si quieres que el usuario sepa que se aplicó, puedes añadir un mensaje al chat local
+        // o un JOptionPane de éxito.
+        if (activeChatClient != null) {
+            activeChatClient.sendMessage("[Sistema]: Semilla manual aplicada: " + manualSeed);
+        }
+
+        // Ya está deshabilitado por applyReceivedSeed, pero lo ponemos aquí para claridad.
+        // jButton1.setEnabled(false);
+        // jTextFieldSeed.setEditable(false); // Podrías deshabilitar el campo también
+                                             // para evitar cambios una vez iniciada la partida.
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "La semilla debe ser un número válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+    }
+}
+    public void applyReceivedSeed(long seed) {
+    if (!gameStarted) { // Solo aplica la semilla si el juego no ha sido iniciado
+        System.out.println("Board aplicando semilla: " + seed);
+        RNG(seed); // Llama a tu función RNG con la semilla recibida
+        LlenarTabla(); // Vuelve a llenar la tabla con el nuevo orden
+        gameStarted = true; // Marca el juego como iniciado
+        jButton1.setEnabled(false); // Deshabilita el botón de "Comenzar"
+        // Opcional: Podrías deshabilitar también el jTextFieldSeed si el juego ya inició.
+        // jTextFieldSeed.setEditable(false);
+    } else {
+        System.out.println("El juego ya está iniciado. Ignorando intento de aplicar semilla: " + seed);
+    }
+}
     public void RNGchus()
     {
         labels = new JLabel[]{
@@ -195,18 +246,6 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
     }
                                             
 
-    public void applyReceivedSeed(long seed) {
-        if (!gameStarted) { // Solo aplica la semilla si el juego no ha sido iniciado localmente
-            System.out.println("Board recibió semilla del chat: " + seed);
-            RNG(seed); // Llama a tu función RNG con la semilla recibida
-            LlenarTabla(); // Vuelve a llenar la tabla
-            gameStarted = true; // Marca el juego como iniciado
-            jButton1.setEnabled(false); // Deshabilita el botón de "Comenzar" para evitar que se genere otra semilla
-            // Opcional: podrías mostrar un mensaje en la UI para el usuario indicando que el juego ha comenzado.
-        } else {
-            System.out.println("El juego ya está iniciado. Ignorando semilla recibida: " + seed);
-        }
-    }
     
     // El método que envía mensajes al chat (que ya hemos agregado)
     public void sendGameMessage(String message) {
@@ -224,25 +263,13 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
     try {
         ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
         Image image = originalIcon.getImage();
-
-        // Get the current width and height of the button
         int buttonWidth = jButtonInformation.getWidth();
         int buttonHeight = jButtonInformation.getHeight();
-
-        // Ensure the button has a size before trying to scale.
-        // If the button hasn't been laid out yet, its width/height might be 0.
-        // You might need to call this after the JFrame is visible or after a pack().
         if (buttonWidth == 0 || buttonHeight == 0) {
-            // As a fallback, you can set a default size or defer this call.
-            // For now, let's just make sure it's not 0 to avoid errors.
-            // A common practice is to call this after the frame is packed or set visible.
-            // For immediate setup, you might need to give the button preferred size or similar.
             System.out.println("Warning: jButtonInformation has 0 width or height. Icon might not scale correctly initially.");
-            // You can set a default size for scaling if the button isn't yet rendered
-            buttonWidth = 30; // Example default width
-            buttonHeight = 30; // Example default height
+            buttonWidth = 30;
+            buttonHeight = 30; 
         }
-
         Image scaledImage = image.getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
         jButtonInformation.setIcon(new ImageIcon(scaledImage));
     } catch (NullPointerException e) {
@@ -251,7 +278,6 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
 }
     
     private void setDefaultImages() {
-        // Array of all JLabels you want to set the image for
         labels = new JLabel[]{
             jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
             jLabel11, jLabel12, jLabel13, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18,
@@ -281,14 +307,12 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         }
     }
     
-    //fecha
     private void actualizarFecha() {
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         lblfecha.setText(fechaActual.format(formatter));
     }
     
-        //temporizador para duracion
     private void iniciarTemporizador() {
         timer = new Timer(1000, e -> {
             segundosTranscurridos++;
@@ -300,7 +324,6 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         timer.start();
     }
     
-        //Metodo cargar Musica
     private void cargarMusica() {
         if (clip != null) {
             
@@ -328,7 +351,6 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         }
     }
     
-    // Método para controlar la música
     private void Musica() {
         System.out.println("DEBUG: Método Musica() llamado");
         System.out.println("DEBUG: Estado actual musicaReproduciendo = " + musicaReproduciendo);
@@ -463,11 +485,12 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         btnMusica = new javax.swing.JButton();
         jButtonChat = new javax.swing.JButton();
         jButtonQuestion = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
         jButtonYes = new javax.swing.JButton();
         jButtonNo = new javax.swing.JButton();
         jButtonHit = new javax.swing.JButton();
+        jTextFieldSeed = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -811,7 +834,7 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -914,9 +937,6 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Comic Sans MS", 3, 15)); // NOI18N
-        jButton2.setText("Escoger de la matriz");
-
         jLabel28.setFont(new java.awt.Font("Comic Sans MS", 3, 15)); // NOI18N
         jLabel28.setText("   Personaje escogido");
 
@@ -941,6 +961,14 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         jButtonHit.setBackground(new java.awt.Color(255, 204, 153));
         jButtonHit.setFont(new java.awt.Font("Comic Sans MS", 3, 18)); // NOI18N
         jButtonHit.setText("Le atinaste");
+
+        jTextFieldSeed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSeedActionPerformed(evt);
+            }
+        });
+
+        jLabel29.setText("Inserte semilla aqui:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1020,12 +1048,15 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
                                 .addGap(14, 14, 14))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonHit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel29)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jButtonHit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldSeed)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(18, 18, 18)
@@ -1096,6 +1127,10 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel29)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldSeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
                                 .addComponent(jButtonHit, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1105,9 +1140,7 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jButtonYes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonAzar, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButtonAzar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -1393,6 +1426,11 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         sendGameMessage("¡NO!");
     }//GEN-LAST:event_jButtonNoActionPerformed
 
+    private void jTextFieldSeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSeedActionPerformed
+        // TODO add your handling code here:
+        applySeedFromTextField();
+    }//GEN-LAST:event_jTextFieldSeedActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1432,7 +1470,6 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMusica;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAzar;
     private javax.swing.JButton jButtonChat;
     private javax.swing.JButton jButtonHit;
@@ -1461,6 +1498,7 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1496,6 +1534,7 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextFieldSeed;
     private javax.swing.JLabel lblNombreJuego;
     private javax.swing.JLabel lblNombreJugador;
     private javax.swing.JLabel lblPersonajeJugador;
