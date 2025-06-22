@@ -1,8 +1,8 @@
-
 package BoardGame;
 
 import java.util.Random;
 import java.awt.Image;
+import java.awt.MediaTracker;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
@@ -21,173 +21,171 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.Timer;
-import javax.swing.JButton; 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class Board extends javax.swing.JFrame {
-    
-    
-     private javax.swing.Timer timer;
+
+    private javax.swing.Timer timer;
     private int segundosTranscurridos = 0;
     private ChatClient activeChatClient;
     private boolean musicaReproduciendo = false;
     private Clip clip;
     private long posicionPausa = 0; // Guarda la posición cuando se pausa
     private final String rutaMusica = "/sounds/cancion.wav";
-    
-    ArrayList<String> mylist; 
+
+    ArrayList<String> mylist;
     private static final String BACK_POKER_IMAGE_PATH = "/Images/BackPoker.jpg";
     private JLabel[] labels;
-    
+
     private boolean gameStarted = false; // Indica si el juego ya ha sido iniciado por alguna semilla
-    
+
     public void RNG() {
-    RNG(System.nanoTime()); // Llama al nuevo RNG con una semilla aleatoria por defecto
-}
+        RNG(System.nanoTime()); // Llama al nuevo RNG con una semilla aleatoria por defecto
+    }
 
-public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
-    labels = new JLabel[]{
-        jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
-        jLabel11, jLabel12, jLabel13, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18,
-        jLabel19, jLabel20, jLabel21, jLabel22, jLabel23, jLabel26, jLabel27
-    };
+    public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
+        labels = new JLabel[]{
+            jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
+            jLabel11, jLabel12, jLabel13, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18,
+            jLabel19, jLabel20, jLabel21, jLabel22, jLabel23, jLabel26, jLabel27
+        };
 
-    mylist = new ArrayList<String>();
-    // ... (rellena mylist del 1 al 34 como lo tienes) ...
-    mylist.add("1");
-    mylist.add("2");
-    mylist.add("3");
-    mylist.add("4");
-    mylist.add("5");
-    mylist.add("6");
-    mylist.add("7");
-    mylist.add("8");
-    mylist.add("9");
-    mylist.add("10");
-    mylist.add("11");
-    mylist.add("12");
-    mylist.add("13");
-    mylist.add("14");
-    mylist.add("15");
-    mylist.add("16");
-    mylist.add("17");
-    mylist.add("18");
-    mylist.add("19");
-    mylist.add("20");
-    mylist.add("21");
-    mylist.add("22");
-    mylist.add("23");
-    mylist.add("24");
-    mylist.add("25");
-    mylist.add("26");
-    mylist.add("27");
-    mylist.add("28");
-    mylist.add("29");
-    mylist.add("30");
-    mylist.add("31");
-    mylist.add("32");
-    mylist.add("33");
-    mylist.add("34");
-    // ... hasta mylist.add("34");
+        mylist = new ArrayList<String>();
+        // ... (rellena mylist del 1 al 34 como lo tienes) ...
+        mylist.add("1");
+        mylist.add("2");
+        mylist.add("3");
+        mylist.add("4");
+        mylist.add("5");
+        mylist.add("6");
+        mylist.add("7");
+        mylist.add("8");
+        mylist.add("9");
+        mylist.add("10");
+        mylist.add("11");
+        mylist.add("12");
+        mylist.add("13");
+        mylist.add("14");
+        mylist.add("15");
+        mylist.add("16");
+        mylist.add("17");
+        mylist.add("18");
+        mylist.add("19");
+        mylist.add("20");
+        mylist.add("21");
+        mylist.add("22");
+        mylist.add("23");
+        mylist.add("24");
+        mylist.add("25");
+        mylist.add("26");
+        mylist.add("27");
+        mylist.add("28");
+        mylist.add("29");
+        mylist.add("30");
+        mylist.add("31");
+        mylist.add("32");
+        mylist.add("33");
+        mylist.add("34");
+        // ... hasta mylist.add("34");
 
-    System.out.println("Original List : \n" + mylist);
+        System.out.println("Original List : \n" + mylist);
 
-    // =================================================================
-    // ¡Cambio clave aquí! Usa la semilla para Collections.shuffle
-    // =================================================================
-    Collections.shuffle(mylist, new Random(seed)); // Baraja usando la semilla
+        // =================================================================
+        // ¡Cambio clave aquí! Usa la semilla para Collections.shuffle
+        // =================================================================
+        Collections.shuffle(mylist, new Random(seed)); // Baraja usando la semilla
 
-    System.out.println("\nShuffled List (with seed " + seed + "): \n" + mylist);
+        System.out.println("\nShuffled List (with seed " + seed + "): \n" + mylist);
 
-    // =================================================================
-    // Usa la misma semilla para el Random r para la imagen del "chus" (si aplica)
-    // =================================================================
-    Random r = new Random(seed); // Usa la misma semilla
-    int r1 = r.nextInt(24);
+        // =================================================================
+        // Usa la misma semilla para el Random r para la imagen del "chus" (si aplica)
+        // =================================================================
+        Random r = new Random(seed); // Usa la misma semilla
+        int r1 = r.nextInt(24);
 
-    for (int i = 0; i < 24; i++) {
-        System.out.println("Valor de i: " + i);
-        String imagePath = "/Images/" + mylist.get(i) + ".png";
-        String imageIdentifier = mylist.get(i);
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
-        Image image = originalIcon.getImage();
-        Image scaledImage = image.getScaledInstance(labels[i].getWidth(), labels[i].getHeight(), Image.SCALE_SMOOTH);
-        labels[i].setIcon(new ImageIcon(scaledImage));
-        labels[i].setName(imageIdentifier);
+        for (int i = 0; i < 24; i++) {
+            System.out.println("Valor de i: " + i);
+            String imagePath = "/Images/" + mylist.get(i) + ".png";
+            String imageIdentifier = mylist.get(i);
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
+            Image image = originalIcon.getImage();
+            Image scaledImage = image.getScaledInstance(labels[i].getWidth(), labels[i].getHeight(), Image.SCALE_SMOOTH);
+            labels[i].setIcon(new ImageIcon(scaledImage));
+            labels[i].setName(imageIdentifier);
 
-        if (r1 == i) { // Esta es tu lógica para el lblPersonajeJugador (el "chus")
-            ImageIcon personajeIcon = new ImageIcon(getClass().getResource(imagePath));
-            Image personajeImg = personajeIcon.getImage();
-            Image scaledPersonaje = personajeImg.getScaledInstance(
-                    lblPersonajeJugador.getWidth(),
-                    lblPersonajeJugador.getHeight(),
-                    Image.SCALE_SMOOTH
-            );
-            lblPersonajeJugador.setIcon(new ImageIcon(scaledPersonaje));
+            if (r1 == i) { // Esta es tu lógica para el lblPersonajeJugador (el "chus")
+                ImageIcon personajeIcon = new ImageIcon(getClass().getResource(imagePath));
+                Image personajeImg = personajeIcon.getImage();
+                Image scaledPersonaje = personajeImg.getScaledInstance(
+                        lblPersonajeJugador.getWidth(),
+                        lblPersonajeJugador.getHeight(),
+                        Image.SCALE_SMOOTH
+                );
+                lblPersonajeJugador.setIcon(new ImageIcon(scaledPersonaje));
+            }
         }
     }
-}
-    
 
     private void applySeedFromTextField() {
-    if (gameStarted) {
-        JOptionPane.showMessageDialog(this, "El juego ya está iniciado. No se puede aplicar una nueva semilla manualmente.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    String seedText = jTextFieldSeed.getText();
-    if (seedText.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, ingresa una semilla en el campo.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    try {
-        long manualSeed = Long.parseLong(seedText);
-        System.out.println("Aplicando semilla manual desde JTextField: " + manualSeed);
-
-        // Llamar a la lógica de tu tablero para aplicar esta semilla.
-        // Reutilizamos applyReceivedSeed porque ya maneja la lógica de RNG y el estado.
-        applyReceivedSeed(manualSeed);
-
-        // Opcional: Una vez aplicada, puedes limpiar el campo o dejarla visible.
-        // Si quieres que el usuario sepa que se aplicó, puedes añadir un mensaje al chat local
-        // o un JOptionPane de éxito.
-        if (activeChatClient != null) {
-            activeChatClient.sendMessage("[Sistema]: Semilla manual aplicada: " + manualSeed);
+        if (gameStarted) {
+            JOptionPane.showMessageDialog(this, "El juego ya está iniciado. No se puede aplicar una nueva semilla manualmente.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-        // Ya está deshabilitado por applyReceivedSeed, pero lo ponemos aquí para claridad.
-        // jButton1.setEnabled(false);
-        // jTextFieldSeed.setEditable(false); // Podrías deshabilitar el campo también
-                                             // para evitar cambios una vez iniciada la partida.
+        String seedText = jTextFieldSeed.getText();
+        if (seedText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa una semilla en el campo.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "La semilla debe ser un número válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+        try {
+            long manualSeed = Long.parseLong(seedText);
+            System.out.println("Aplicando semilla manual desde JTextField: " + manualSeed);
+
+            // Llamar a la lógica de tu tablero para aplicar esta semilla.
+            // Reutilizamos applyReceivedSeed porque ya maneja la lógica de RNG y el estado.
+            applyReceivedSeed(manualSeed);
+
+            // Opcional: Una vez aplicada, puedes limpiar el campo o dejarla visible.
+            // Si quieres que el usuario sepa que se aplicó, puedes añadir un mensaje al chat local
+            // o un JOptionPane de éxito.
+            if (activeChatClient != null) {
+                activeChatClient.sendMessage("[Sistema]: Semilla manual aplicada: " + manualSeed);
+            }
+
+            // Ya está deshabilitado por applyReceivedSeed, pero lo ponemos aquí para claridad.
+            // jButton1.setEnabled(false);
+            // jTextFieldSeed.setEditable(false); // Podrías deshabilitar el campo también
+            // para evitar cambios una vez iniciada la partida.
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "La semilla debe ser un número válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+        }
     }
-}
+
     public void applyReceivedSeed(long seed) {
-    if (!gameStarted) { // Solo aplica la semilla si el juego no ha sido iniciado
-        System.out.println("Board aplicando semilla: " + seed);
-        RNG(seed); // Llama a tu función RNG con la semilla recibida
-        LlenarTabla(); // Vuelve a llenar la tabla con el nuevo orden
-        gameStarted = true; // Marca el juego como iniciado
-        jButton1.setEnabled(false); // Deshabilita el botón de "Comenzar"
-        // Opcional: Podrías deshabilitar también el jTextFieldSeed si el juego ya inició.
-        // jTextFieldSeed.setEditable(false);
-    } else {
-        System.out.println("El juego ya está iniciado. Ignorando intento de aplicar semilla: " + seed);
+        if (!gameStarted) { // Solo aplica la semilla si el juego no ha sido iniciado
+            System.out.println("Board aplicando semilla: " + seed);
+            RNG(seed); // Llama a tu función RNG con la semilla recibida
+            LlenarTabla(); // Vuelve a llenar la tabla con el nuevo orden
+            gameStarted = true; // Marca el juego como iniciado
+            jButton1.setEnabled(false); // Deshabilita el botón de "Comenzar"
+            // Opcional: Podrías deshabilitar también el jTextFieldSeed si el juego ya inició.
+            // jTextFieldSeed.setEditable(false);
+        } else {
+            System.out.println("El juego ya está iniciado. Ignorando intento de aplicar semilla: " + seed);
+        }
     }
-}
-    public void RNGchus()
-    {
+
+    public void RNGchus() {
         labels = new JLabel[]{
-        jLabel1,jLabel2,jLabel3,jLabel4,jLabel5,jLabel6,jLabel7,jLabel8,jLabel9,jLabel10,
-        jLabel11, jLabel12,jLabel13,jLabel14,jLabel15,jLabel16,jLabel17,jLabel18,
-        jLabel19,jLabel20,jLabel21,jLabel22,jLabel23,jLabel26,jLabel27
+            jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
+            jLabel11, jLabel12, jLabel13, jLabel14, jLabel15, jLabel16, jLabel17, jLabel18,
+            jLabel19, jLabel20, jLabel21, jLabel22, jLabel23, jLabel26, jLabel27
         };
-        
-        Random r= new Random();
+
+        Random r = new Random();
         int r1 = r.nextInt(24);
         for (int i = 0; i < 24; i++) {
             System.out.println("Valor de i: " + i);
@@ -196,14 +194,13 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
             ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
             Image image = originalIcon.getImage();
             Image scaledImage = image.getScaledInstance(labels[i].getWidth(), labels[i].getHeight(), Image.SCALE_SMOOTH);
-            if(r1==i)
-            {
+            if (r1 == i) {
                 originalIcon = new ImageIcon(getClass().getResource(imagePath));
                 image = originalIcon.getImage();
                 scaledImage = image.getScaledInstance(labels[24].getWidth(), labels[24].getHeight(), Image.SCALE_SMOOTH);
                 labels[24].setIcon(new ImageIcon(scaledImage));
-                
-                 // Actualizar imagen en el panel superior
+
+                // Actualizar imagen en el panel superior
                 ImageIcon personajeIcon = new ImageIcon(getClass().getResource(imagePath));
                 Image personajeImg = personajeIcon.getImage();
                 Image scaledPersonaje = personajeImg.getScaledInstance(
@@ -236,18 +233,16 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
             }
         }
         setDefaultImages();
-        scaleInformationButtonIcon(); 
-        
+        scaleInformationButtonIcon();
+
         //elementos
         actualizarFecha();
         iniciarTemporizador();
         //lblNombreJugadorsetText("Jugador: " + nombreJugador);
         cargarMusica();
-        jButton1.setEnabled(true); 
+        jButton1.setEnabled(true);
     }
-                                            
 
-    
     // El método que envía mensajes al chat (que ya hemos agregado)
     public void sendGameMessage(String message) {
         if (activeChatClient != null && activeChatClient.frame.isVisible()) {
@@ -258,26 +253,26 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
             // JOptionPane.showMessageDialog(this, "El chat no está abierto.", "Error de Envío", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
+
     private void scaleInformationButtonIcon() {
-    String imagePath = "/Images/clear-information-icon-070831--icons-etc-30.png";
-    try {
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
-        Image image = originalIcon.getImage();
-        int buttonWidth = jButtonInformation.getWidth();
-        int buttonHeight = jButtonInformation.getHeight();
-        if (buttonWidth == 0 || buttonHeight == 0) {
-            System.out.println("Warning: jButtonInformation has 0 width or height. Icon might not scale correctly initially.");
-            buttonWidth = 30;
-            buttonHeight = 30; 
+        String imagePath = "/Images/clear-information-icon-070831--icons-etc-30.png";
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
+            Image image = originalIcon.getImage();
+            int buttonWidth = jButtonInformation.getWidth();
+            int buttonHeight = jButtonInformation.getHeight();
+            if (buttonWidth == 0 || buttonHeight == 0) {
+                System.out.println("Warning: jButtonInformation has 0 width or height. Icon might not scale correctly initially.");
+                buttonWidth = 30;
+                buttonHeight = 30;
+            }
+            Image scaledImage = image.getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
+            jButtonInformation.setIcon(new ImageIcon(scaledImage));
+        } catch (NullPointerException e) {
+            System.err.println("Error: Information icon not found at " + imagePath);
         }
-        Image scaledImage = image.getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
-        jButtonInformation.setIcon(new ImageIcon(scaledImage));
-    } catch (NullPointerException e) {
-        System.err.println("Error: Information icon not found at " + imagePath);
     }
-}
-    
+
     private void setDefaultImages() {
         labels = new JLabel[]{
             jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
@@ -295,25 +290,25 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
             image = originalIcon.getImage();
         } catch (NullPointerException e) {
             System.err.println("Error: default_image.png not found at " + defaultImagePath);
-            
-            return; 
+
+            return;
         }
 
         for (JLabel label : labels) {
-            if (label != null) { 
-                
+            if (label != null) {
+
                 scaledImage = image.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
                 label.setIcon(new ImageIcon(scaledImage));
             }
         }
     }
-    
+
     private void actualizarFecha() {
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         lblfecha.setText(fechaActual.format(formatter));
     }
-    
+
     private void iniciarTemporizador() {
         timer = new Timer(1000, e -> {
             segundosTranscurridos++;
@@ -324,15 +319,15 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
 
         timer.start();
     }
-    
+
     private void cargarMusica() {
         if (clip != null) {
-            
+
             return;
         }
 
         try {
-            
+
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
                     getClass().getResource(rutaMusica));
             clip = AudioSystem.getClip();
@@ -343,7 +338,6 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
             musicaReproduciendo = true;
             btnMusica.setIcon(new ImageIcon(getClass().getResource("/images/sonido.png")));
 
-            
             System.out.println("DEBUG: musicaReproduciendo = " + musicaReproduciendo);
 
         } catch (Exception e) {
@@ -351,7 +345,7 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
             e.printStackTrace();
         }
     }
-    
+
     private void Musica() {
         System.out.println("DEBUG: Método Musica() llamado");
         System.out.println("DEBUG: Estado actual musicaReproduciendo = " + musicaReproduciendo);
@@ -406,15 +400,13 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
             e.printStackTrace();
         }
     }
-    
-        public void cerrarRecursos() {
+
+    public void cerrarRecursos() {
         if (clip != null) {
             clip.stop();
             clip.close();
         }
     }
-
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -1181,9 +1173,9 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
             long currentSeed = System.nanoTime(); // Genera una semilla única solo si eres el primero
             RNG(currentSeed); // Llama a RNG con la semilla
             LlenarTabla();
-            
+
             // Marca el juego como iniciado para esta instancia y las demás si reciben la semilla
-            gameStarted = true; 
+            gameStarted = true;
             jButton1.setEnabled(false); // Deshabilita el botón una vez que se ha iniciado
 
             if (activeChatClient != null && activeChatClient.frame.isVisible()) {
@@ -1198,9 +1190,9 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
             System.out.println("El juego ya ha sido iniciado con una semilla. No se generará una nueva.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-    public void LlenarTabla(){
-                // Usaremos un ArrayList temporal para recolectar los nombres primero
+
+    public void LlenarTabla() {
+        // Usaremos un ArrayList temporal para recolectar los nombres primero
         List<String> nombresParaMostrar = new ArrayList<>();
 
         List<Personaje> todas = ConexionBD.obtenerTodasLosPersonajes();
@@ -1242,67 +1234,105 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         for (int i = 0; i < countToAdd; i++) {
             model.addElement(nombresParaMostrar.get(i));
         }
-    
+
     }
-    
+
     public void fliperino(JLabel clickedLabel) {
-        String faceUpImageIdentifier = clickedLabel.getName(); // Get the stored face-up image name (e.g., "1", "2")
+    String faceUpImageIdentifier = clickedLabel.getName();
+    System.out.println("Clicked on card with ID: " + faceUpImageIdentifier); // Debug
 
     if (faceUpImageIdentifier == null || faceUpImageIdentifier.isEmpty()) {
-        System.out.println("JLabel has no assigned face-up image identifier.");
+        System.out.println("Error: No image identifier set for this card");
         return;
     }
 
+    // Determinar si estamos volteando o tapando la carta
     ImageIcon currentIcon = (ImageIcon) clickedLabel.getIcon();
-    String imageToLoadPath;
+    boolean isCardFlipped = (currentIcon != null && 
+                            currentIcon.getDescription() != null && 
+                            !currentIcon.getDescription().endsWith(BACK_POKER_IMAGE_PATH));
 
+    if (!isCardFlipped) {
+        // Voltear la carta (mostrar personaje)
+        String imagePath = "/Images/" + faceUpImageIdentifier + ".png";
+        System.out.println("Loading image from: " + imagePath); // Debug
+        
+        try {
+            // 1. Cargar la imagen del personaje
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
+            if (originalIcon.getImageLoadStatus() == MediaTracker.ERRORED) {
+                System.err.println("Error: Failed to load image at " + imagePath);
+                return;
+            }
 
-    if (currentIcon != null && currentIcon.getDescription() != null &&
-        currentIcon.getDescription().endsWith(BACK_POKER_IMAGE_PATH)) {
-        imageToLoadPath = "/Images/" + faceUpImageIdentifier + ".png";
-    } else {
+            // 2. Actualizar jLabel27 (panel grande)
+            if (jLabel27.getWidth() > 0 && jLabel27.getHeight() > 0) {
+                Image scaledImage = originalIcon.getImage().getScaledInstance(
+                    jLabel27.getWidth(), 
+                    jLabel27.getHeight(), 
+                    Image.SCALE_SMOOTH);
+                jLabel27.setIcon(new ImageIcon(scaledImage));
+                System.out.println("Updated jLabel27 with character image"); // Debug
+            }
 
-        imageToLoadPath = BACK_POKER_IMAGE_PATH;
-    }
+            // 3. Actualizar lblPersonajeJugador (panel pequeño)
+            if (lblPersonajeJugador.getWidth() > 0 && lblPersonajeJugador.getHeight() > 0) {
+                Image smallImage = originalIcon.getImage().getScaledInstance(
+                    lblPersonajeJugador.getWidth(),
+                    lblPersonajeJugador.getHeight(),
+                    Image.SCALE_SMOOTH);
+                lblPersonajeJugador.setIcon(new ImageIcon(smallImage));
+                System.out.println("Updated lblPersonajeJugador with character image"); // Debug
+            }
 
-        setAndScaleImage(clickedLabel, imageToLoadPath);
-    }
-    
-    private void setAndScaleImage(JLabel label, String imagePath) {
-    if (label == null) {
-        System.err.println("Attempted to set image on a null JLabel.");
-        return;
-    }
-    try {
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
-        if (originalIcon.getImageLoadStatus() == java.awt.MediaTracker.ERRORED) {
-             System.err.println("Error loading image: " + imagePath + ". Check if file exists and path is correct.");
-             
-             return;
+            // 4. Voltear la carta clickeada
+            setAndScaleImage(clickedLabel, imagePath);
+            
+        } catch (Exception e) {
+            System.err.println("Error loading character image: " + e.getMessage());
+            e.printStackTrace();
         }
-        Image image = originalIcon.getImage();
-        Image scaledImage = image.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
-        // Store the imagePath as the description for future checks in fliperino
-        label.setIcon(new ImageIcon(scaledImage, imagePath));
-    } catch (NullPointerException e) {
-        // This usually happens if getResource returns null (image not found)
-        System.err.println("Image resource not found: " + imagePath);
-        // You might want to set a default "missing image" icon here
+    } else {
+        // Tapar la carta (volver a mostrar el reverso)
+        setAndScaleImage(clickedLabel, BACK_POKER_IMAGE_PATH);
     }
 }
-    
+
+    private void setAndScaleImage(JLabel label, String imagePath) {
+        if (label == null) {
+            System.err.println("Attempted to set image on a null JLabel.");
+            return;
+        }
+        try {
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
+            if (originalIcon.getImageLoadStatus() == java.awt.MediaTracker.ERRORED) {
+                System.err.println("Error loading image: " + imagePath + ". Check if file exists and path is correct.");
+
+                return;
+            }
+            Image image = originalIcon.getImage();
+            Image scaledImage = image.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+            // Store the imagePath as the description for future checks in fliperino
+            label.setIcon(new ImageIcon(scaledImage, imagePath));
+        } catch (NullPointerException e) {
+            // This usually happens if getResource returns null (image not found)
+            System.err.println("Image resource not found: " + imagePath);
+            // You might want to set a default "missing image" icon here
+        }
+    }
+
     private void jLabelMouseClicked(java.awt.event.MouseEvent evt) {
-                JLabel clickedLabel = (JLabel) evt.getSource();
+        JLabel clickedLabel = (JLabel) evt.getSource();
         String faceUpImageName = clickedLabel.getName(); // This should be the '1', '2', etc.
 
         if (faceUpImageName != null && !faceUpImageName.isEmpty()) { // Added check for empty string
             System.out.println("Clicked on label. Assigned image name: " + faceUpImageName);
-            fliperino(clickedLabel); 
+            fliperino(clickedLabel);
         } else {
             System.out.println("This label has no assigned 'faceUpImageName' (from setName()).");
         }
     }
-    
+
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
 
@@ -1324,112 +1354,110 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         Musica();
     }//GEN-LAST:event_btnMusicaActionPerformed
 
-    public String obtenerimagen(String charName)
-    {
+    public String obtenerimagen(String charName) {
         List<Personaje> todas = ConexionBD.obtenerTodasLosPersonajes();
         Personaje foundPersonaje = null;
-        if (todas != null) { 
-            for (Personaje p : todas) { 
+        if (todas != null) {
+            for (Personaje p : todas) {
                 if (p.getNombre().equals(charName)) {
-                    foundPersonaje = p; 
-                    break; 
+                    foundPersonaje = p;
+                    break;
                 }
             }
         }
-        
-        if(foundPersonaje != null)
-        {
+
+        if (foundPersonaje != null) {
             int charId = foundPersonaje.getID();
             String match = charId + "";
             System.out.print(match);
             return match;
         }
-        
+
         return null;
     }
-    
+
     private void jListNamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListNamesValueChanged
         // TODO add your handling code here:
-                if (!evt.getValueIsAdjusting()) {
-        String selectedCharacterName = jListNames.getSelectedValue();
+        if (!evt.getValueIsAdjusting()) {
+            String selectedCharacterName = jListNames.getSelectedValue();
 
-        if (selectedCharacterName != null) {
+            if (selectedCharacterName != null) {
 
-            String characterIdString = obtenerimagen(selectedCharacterName); 
+                String characterIdString = obtenerimagen(selectedCharacterName);
 
-            if (characterIdString != null) {
-              
-                String imagePath = "/Images/" + characterIdString + ".png"; 
-                System.out.println("DEBUG: Intentando cargar imagen desde: " + imagePath); 
+                if (characterIdString != null) {
 
-                ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
+                    String imagePath = "/Images/" + characterIdString + ".png";
+                    System.out.println("DEBUG: Intentando cargar imagen desde: " + imagePath);
 
-                if (originalIcon.getImageLoadStatus() == java.awt.MediaTracker.ERRORED) {
-                    System.err.println("Error al cargar la imagen: " + imagePath);
+                    ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
 
+                    if (originalIcon.getImageLoadStatus() == java.awt.MediaTracker.ERRORED) {
+                        System.err.println("Error al cargar la imagen: " + imagePath);
+
+                    } else {
+                        Image image = originalIcon.getImage();
+                        if (labels[24] != null && labels[24].getWidth() > 0 && labels[24].getHeight() > 0) {
+                            Image scaledImageForLabel24 = image.getScaledInstance(
+                                    labels[24].getWidth(),
+                                    labels[24].getHeight(),
+                                    Image.SCALE_SMOOTH
+                            );
+                            labels[24].setIcon(new ImageIcon(scaledImageForLabel24));
+                        } else {
+                            System.err.println("labels[24] (jLabel26) no está inicializado o no tiene dimensiones válidas para escalar.");
+                        }
+
+                        if (lblPersonajeJugador != null && lblPersonajeJugador.getWidth() > 0 && lblPersonajeJugador.getHeight() > 0) {
+                            Image scaledImageForPlayer = image.getScaledInstance(
+                                    lblPersonajeJugador.getWidth(),
+                                    lblPersonajeJugador.getHeight(),
+                                    Image.SCALE_SMOOTH
+                            );
+                            lblPersonajeJugador.setIcon(new ImageIcon(scaledImageForPlayer));
+                        } else {
+                            System.err.println("lblPersonajeJugador no está inicializado o no tiene dimensiones válidas para escalar.");
+                        }
+                    }
                 } else {
-                    Image image = originalIcon.getImage(); 
-                    if (labels[24] != null && labels[24].getWidth() > 0 && labels[24].getHeight() > 0) {
-                        Image scaledImageForLabel24 = image.getScaledInstance(
-                            labels[24].getWidth(),
-                            labels[24].getHeight(),
-                            Image.SCALE_SMOOTH
-                        );
-                        labels[24].setIcon(new ImageIcon(scaledImageForLabel24));
-                    } else {
-                        System.err.println("labels[24] (jLabel26) no está inicializado o no tiene dimensiones válidas para escalar.");
-                    }
-
-                    if (lblPersonajeJugador != null && lblPersonajeJugador.getWidth() > 0 && lblPersonajeJugador.getHeight() > 0) {
-                        Image scaledImageForPlayer = image.getScaledInstance(
-                            lblPersonajeJugador.getWidth(),
-                            lblPersonajeJugador.getHeight(),
-                            Image.SCALE_SMOOTH
-                        );
-                        lblPersonajeJugador.setIcon(new ImageIcon(scaledImageForPlayer));
-                    } else {
-                        System.err.println("lblPersonajeJugador no está inicializado o no tiene dimensiones válidas para escalar.");
-                    }
+                    System.out.println("No se pudo obtener el ID del personaje: " + selectedCharacterName + ". ¿Existe en la BD?");
                 }
             } else {
-                System.out.println("No se pudo obtener el ID del personaje: " + selectedCharacterName + ". ¿Existe en la BD?");
+                System.out.println("No se ha seleccionado ningún elemento de la lista.");
             }
-        } else {
-            System.out.println("No se ha seleccionado ningún elemento de la lista.");
         }
-    }
     }//GEN-LAST:event_jListNamesValueChanged
 
     private void jButtonChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChatActionPerformed
         if (activeChatClient == null || !activeChatClient.frame.isVisible()) {
-        activeChatClient = new ChatClient();
-        
-        // =============================================================
-        // ¡Pasa la referencia de esta instancia de Board al ChatClient!
-        activeChatClient.setBoardReference(this); 
-        // =============================================================
+            activeChatClient = new ChatClient();
 
-        activeChatClient.frame.setVisible(true);
+            // =============================================================
+            // ¡Pasa la referencia de esta instancia de Board al ChatClient!
+            activeChatClient.setBoardReference(this);
+            // =============================================================
 
-        new Thread(() -> {
-            activeChatClient.run();
-        }).start();
-    } else {
-        activeChatClient.frame.toFront();
-        activeChatClient.frame.requestFocus();
-    }
+            activeChatClient.frame.setVisible(true);
+
+            new Thread(() -> {
+                activeChatClient.run();
+            }).start();
+        } else {
+            activeChatClient.frame.toFront();
+            activeChatClient.frame.requestFocus();
+        }
     }//GEN-LAST:event_jButtonChatActionPerformed
 
-    
+
     private void jButtonQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuestionActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jButtonQuestionActionPerformed
 
     private void jButtonYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonYesActionPerformed
         // TODO add your handling code here:
         sendGameMessage("¡SÍ!");
-        
+
     }//GEN-LAST:event_jButtonYesActionPerformed
 
     private void jButtonNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNoActionPerformed
@@ -1444,42 +1472,40 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
 
     public void handleHitAction(int value, String userNameOfAction) {
         SwingUtilities.invokeLater(() -> {
-        String myLocalUserName = (activeChatClient != null) ? activeChatClient.getMyUserName() : "Desconocido";
+            String myLocalUserName = (activeChatClient != null) ? activeChatClient.getMyUserName() : "Desconocido";
 
+            if (value == 1) { // Este jugador (myLocalUserName) es el que presionó HIT
+                // Asegúrate de que userNameOfAction coincide con myLocalUserName
+                // (esto es una doble verificación, el servidor ya envió 1 si coincidía)
+                System.out.println("¡Este jugador (" + myLocalUserName + ") presionó HIT y será llevado a JFramePlayerHit!");
 
+                PerdedorJFrame hitFrame = new PerdedorJFrame();
+                hitFrame.setVisible(true);
 
-        if (value == 1) { // Este jugador (myLocalUserName) es el que presionó HIT
-            // Asegúrate de que userNameOfAction coincide con myLocalUserName
-            // (esto es una doble verificación, el servidor ya envió 1 si coincidía)
-            System.out.println("¡Este jugador (" + myLocalUserName + ") presionó HIT y será llevado a JFramePlayerHit!");
-            
-            PerdedorJFrame hitFrame = new PerdedorJFrame();
-            hitFrame.setVisible(true);
+            } else if (value == 2) { // Otro jugador (userNameOfAction) presionó HIT
+                System.out.println("Otro jugador (" + userNameOfAction + ") presionó HIT. Este jugador (" + myLocalUserName + ") será llevado a JFramePlayerMissed.");
 
-        } else if (value == 2) { // Otro jugador (userNameOfAction) presionó HIT
-            System.out.println("Otro jugador (" + userNameOfAction + ") presionó HIT. Este jugador (" + myLocalUserName + ") será llevado a JFramePlayerMissed.");
-            
-            GanadorJFrame missedFrame = new GanadorJFrame();
-            missedFrame.setVisible(true);
+                GanadorJFrame missedFrame = new GanadorJFrame();
+                missedFrame.setVisible(true);
 
-        } else {
-            System.out.println("Valor de acción HIT desconocido: " + value + " de " + userNameOfAction);
-            // Podrías mostrar un mensaje de error o volver a la ventana principal
-            // Si quieres volver a mostrar el board principal:
-            // if (this instanceof JFrame) { ((JFrame)this).setVisible(true); }
-            // else { SwingUtilities.getWindowAncestor(this).setVisible(true); }
-        }
-        
-        // Lógica adicional después de la acción HIT, como deshabilitar el botón si no se ha hecho ya.
-        // jButtonHit.setEnabled(false); // Puede que ya esté deshabilitado desde el ActionListener del botón.
-    });
-}
-    
+            } else {
+                System.out.println("Valor de acción HIT desconocido: " + value + " de " + userNameOfAction);
+                // Podrías mostrar un mensaje de error o volver a la ventana principal
+                // Si quieres volver a mostrar el board principal:
+                // if (this instanceof JFrame) { ((JFrame)this).setVisible(true); }
+                // else { SwingUtilities.getWindowAncestor(this).setVisible(true); }
+            }
+
+            // Lógica adicional después de la acción HIT, como deshabilitar el botón si no se ha hecho ya.
+            // jButtonHit.setEnabled(false); // Puede que ya esté deshabilitado desde el ActionListener del botón.
+        });
+    }
+
     private void jButtonHitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHitActionPerformed
         // TODO add your handling code here:
         if (activeChatClient != null) {
             // ¡Obtenemos el nombre de usuario del ChatClient!
-            String myUserName = activeChatClient.getMyUserName(); 
+            String myUserName = activeChatClient.getMyUserName();
             if (myUserName != null && !myUserName.trim().isEmpty()) {
                 activeChatClient.sendMessage("/CMD_HIT " + myUserName);
                 jButtonHit.setEnabled(false); // Deshabilita el botón después del clic
@@ -1525,7 +1551,7 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Board().setVisible(true);
-                
+
             }
         });
     }
