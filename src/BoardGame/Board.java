@@ -1358,8 +1358,8 @@ public class Board extends javax.swing.JFrame {
 
     private void jButtonInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformationActionPerformed
         // TODO add your handling code here:
-        JFrameHowToPlay Howto = new JFrameHowToPlay();
-        Howto.setVisible(true);
+        //JFrameHowToPlay Howto = new JFrameHowToPlay();
+        //Howto.setVisible(true);
     }//GEN-LAST:event_jButtonInformationActionPerformed
 
     private void btnMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMusicaActionPerformed
@@ -1464,7 +1464,34 @@ public class Board extends javax.swing.JFrame {
 
     private void jButtonQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuestionActionPerformed
         // TODO add your handling code here:
+                String[] preguntas = {
+        "¿Es tu personaje una mujer?",
+        "¿Tu personaje es un hombre?",
+        "¿Tu personaje parece ser un adulto?",
+        "¿Tu personaje tiene el cabello largo?",
+        "¿Tu personaje tiene el cabello corto?",
+        "¿Tu personaje tiene el cabello de color rubio?",
+        "¿Tu personaje tiene el cabello de color oscuro (negro o marrón oscuro)?",
+        "¿Tu personaje lleva algún tipo de sombrero o gorra?",
+        "¿Tu personaje tiene vello facial (barba, bigote)?",
+        "¿Tu personaje tiene una expresión facial seria o sonriente?",
+        "¿Tu personaje tiene gafas o lentes?",
+        "¿Tu personaje tiene el cabello peinado de una forma muy inusual o llamativa?"
+    };
 
+    String seleccion = (String) JOptionPane.showInputDialog(
+            null,
+            "Selecciona una pregunta:",
+            "Banco de Preguntas",
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            preguntas,
+            preguntas[0]);
+
+    // Si seleccionaron algo, lo mandamos directo al chat
+    if (seleccion != null && activeChatClient != null) {
+        activeChatClient.sendMessage(seleccion);
+    }  
     }//GEN-LAST:event_jButtonQuestionActionPerformed
 
     private void jButtonYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonYesActionPerformed
