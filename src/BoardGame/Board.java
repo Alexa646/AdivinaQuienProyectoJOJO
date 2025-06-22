@@ -484,6 +484,7 @@ public class Board extends javax.swing.JFrame {
         jButtonHit = new javax.swing.JButton();
         jTextFieldSeed = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
+        jButtonYay = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -973,6 +974,15 @@ public class Board extends javax.swing.JFrame {
 
         jLabel29.setText("Inserte semilla aqui:");
 
+        jButtonYay.setBackground(new java.awt.Color(51, 255, 204));
+        jButtonYay.setFont(new java.awt.Font("Comic Sans MS", 3, 18)); // NOI18N
+        jButtonYay.setText("Gane");
+        jButtonYay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonYayActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1052,11 +1062,12 @@ public class Board extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldSeed)
+                                    .addComponent(jButtonHit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel29)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jButtonHit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldSeed)))))
+                                    .addComponent(jButtonYay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1129,11 +1140,13 @@ public class Board extends javax.swing.JFrame {
                                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel29)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldSeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonYay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButtonHit, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1509,6 +1522,11 @@ public class Board extends javax.swing.JFrame {
             if (myUserName != null && !myUserName.trim().isEmpty()) {
                 activeChatClient.sendMessage("/CMD_HIT " + myUserName);
                 jButtonHit.setEnabled(false); // Deshabilita el botón después del clic
+                sendGameMessage("Su oponente a confirmo que adivino el personaje correcto");
+                sendGameMessage("Presione el boton Gane para tomar su victoria");
+                PerdedorJFrame board = new PerdedorJFrame();
+                board.setVisible(true);
+                this.dispose();
                 System.out.println("DEBUG: Se envió /CMD_HIT " + myUserName + " al servidor.");
             } else {
                 System.err.println("Error: No se pudo obtener el nombre de usuario para enviar /CMD_HIT.");
@@ -1519,6 +1537,13 @@ public class Board extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(Board.this, "El chat no está conectado. No se puede realizar la acción.", "Error de Conexión", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonHitActionPerformed
+
+    private void jButtonYayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonYayActionPerformed
+        // TODO add your handling code here:
+        GanadorJFrame board = new GanadorJFrame();
+        board.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButtonYayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1565,6 +1590,7 @@ public class Board extends javax.swing.JFrame {
     private javax.swing.JButton jButtonInformation;
     private javax.swing.JButton jButtonNo;
     private javax.swing.JButton jButtonQuestion;
+    private javax.swing.JButton jButtonYay;
     private javax.swing.JButton jButtonYes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

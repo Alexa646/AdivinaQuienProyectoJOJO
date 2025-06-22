@@ -55,25 +55,16 @@ public class PerdedorJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new FondoPanel();
-        lblderrota = new javax.swing.JLabel();
-        lblNombreJugador = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButtonReiniciar = new javax.swing.JButton();
+        jPanel2 = new FondoPanel();
+        lblderrota = new javax.swing.JLabel();
+        lblNombreJugador = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel2.setBackground(new java.awt.Color(0, 0, 102));
-
-        lblderrota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Derrota.png"))); // NOI18N
-
-        lblNombreJugador.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 24)); // NOI18N
-        lblNombreJugador.setForeground(new java.awt.Color(255, 255, 255));
-        lblNombreJugador.setText("¡Animo!");
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 102));
         jPanel3.setOpaque(false);
@@ -85,7 +76,7 @@ public class PerdedorJFrame extends javax.swing.JFrame {
         jButtonReiniciar.setBackground(new java.awt.Color(51, 51, 255));
         jButtonReiniciar.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
         jButtonReiniciar.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonReiniciar.setText("Reiniciar");
+        jButtonReiniciar.setText("Salir");
         jButtonReiniciar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 51), 3, true));
         jButtonReiniciar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -124,6 +115,14 @@ public class PerdedorJFrame extends javax.swing.JFrame {
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(0, 0, 102));
+
+        lblderrota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Derrota.png"))); // NOI18N
+
+        lblNombreJugador.setFont(new java.awt.Font("Berlin Sans FB Demi", 1, 24)); // NOI18N
+        lblNombreJugador.setForeground(new java.awt.Color(255, 255, 255));
+        lblNombreJugador.setText("¡Animo!");
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/animo.png"))); // NOI18N
         jLabel1.setText("jLabel1");
 
@@ -136,19 +135,13 @@ public class PerdedorJFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(101, 101, 101)
-                                .addComponent(lblderrota, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(278, 278, 278)
-                                .addComponent(lblNombreJugador)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(101, 101, 101)
+                        .addComponent(lblderrota, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(278, 278, 278)
+                        .addComponent(lblNombreJugador)))
+                .addContainerGap(144, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(179, 179, 179)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,31 +160,34 @@ public class PerdedorJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblNombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(181, 181, 181))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(12, 12, 12)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(12, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(175, 175, 175)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(175, Short.MAX_VALUE)))
         );
 
         pack();
@@ -199,20 +195,20 @@ public class PerdedorJFrame extends javax.swing.JFrame {
 
     private void jButtonReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReiniciarActionPerformed
         // TODO add your handling code here:
-
+        this.dispose();
     }//GEN-LAST:event_jButtonReiniciarActionPerformed
-
-    private void jButtonReiniciarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReiniciarMouseEntered
-        // TODO add your handling code here:
-        jButtonReiniciar.setBackground(new Color(255, 200, 100)); // Cambiar el color al pasar el mouse
-        jButtonReiniciar.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jButtonReiniciarMouseEntered
 
     private void jButtonReiniciarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReiniciarMouseExited
         // TODO add your handling code here:
         jButtonReiniciar.setBackground(new Color(51, 51, 255)); // Restaurar el color original
         jButtonReiniciar.setForeground(Color.WHITE); // Restaurar color del texto
     }//GEN-LAST:event_jButtonReiniciarMouseExited
+
+    private void jButtonReiniciarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReiniciarMouseEntered
+        // TODO add your handling code here:
+        jButtonReiniciar.setBackground(new Color(255, 200, 100)); // Cambiar el color al pasar el mouse
+        jButtonReiniciar.setForeground(Color.BLACK);
+    }//GEN-LAST:event_jButtonReiniciarMouseEntered
 
     /**
      * @param args the command line arguments
@@ -254,7 +250,6 @@ public class PerdedorJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblNombreJugador;
