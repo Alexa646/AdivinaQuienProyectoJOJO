@@ -2,6 +2,8 @@ package BoardGame;
 
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.*;
 import java.util.concurrent.Semaphore; 
 
@@ -12,13 +14,12 @@ public class ChatClient {
 
     private BufferedReader in;
     private PrintWriter out;
-    
     public JFrame frame = new JFrame("Chat de Java"); 
-    
     private JTextArea messageArea = new JTextArea(20, 50);
     private JTextField textField = new JTextField(40);
-    
-     private Board boardReference;
+    private Board boardReference;
+    private String userName; 
+    private ExecutorService messageSenderExecutor = Executors.newSingleThreadExecutor();
 
     // Constructor existente
     public ChatClient() {
@@ -74,12 +75,9 @@ public class ChatClient {
             SwingUtilities.invokeLater(() -> messageArea.append("Error: No conectado al servidor. No se puede enviar mensaje.\n"));
         }
     }
-    // =========================================================================
 
     private String getUserName() {
         final String[] name = {null};
-        // Usamos un Semaphore para asegurar que invokeAndWait termine antes de retornar.
-        // Esto es útil si getUserName es llamado desde un hilo no-EDT que necesita el resultado antes de continuar.
         Semaphore semaphore = new Semaphore(0);
         SwingUtilities.invokeLater(() -> {
             name[0] = JOptionPane.showInputDialog(
@@ -87,15 +85,22 @@ public class ChatClient {
                 "Elige un nombre de usuario:",
                 "Nombre de Usuario",
                 JOptionPane.PLAIN_MESSAGE);
-            semaphore.release(); // Libera el semáforo una vez que el diálogo se cierra
+            semaphore.release();
         });
         try {
-            semaphore.acquire(); // Espera hasta que el semáforo sea liberado
+            semaphore.acquire();
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Restaura el estado de interrupción
+            Thread.currentThread().interrupt();
             System.err.println("Interrupción al esperar el nombre de usuario: " + e.getMessage());
         }
+
+        this.userName = name[0]; 
         return name[0];
+    }
+
+ 
+    public String getMyUserName() {
+        return userName;
     }
 
     public void run() {
@@ -138,6 +143,27 @@ public class ChatClient {
                         });
                     } catch (NumberFormatException e) {
                         SwingUtilities.invokeLater(() -> messageArea.append("[Sistema]: Error al parsear semilla: " + line + "\n"));
+                    }
+                }else if (line.startsWith("/GAME_ACTION HIT ")) {
+                    // Esperamos un formato como: /GAME_ACTION HIT <value> <userNameOfAction>
+                    String[] parts = line.split(" ", 4); // Dividimos en 4 partes como máximo
+                    if (parts.length >= 4) { // Aseguramos que tenemos valor y nombre de usuario
+                        try {
+                            int actionValue = Integer.parseInt(parts[2]);
+                            String userNameOfAction = parts[3]; // El nombre del jugador que realizó la acción
+
+                            SwingUtilities.invokeLater(() -> {
+                                if (boardReference != null) {
+                                    // Llamar al método en el Board para manejar la acción HIT con el valor y el nombre
+                                    boardReference.handleHitAction(actionValue, userNameOfAction);
+                                }
+                                messageArea.append("[Juego]: " + userNameOfAction + " realizó una acción HIT (Valor: " + actionValue + ")\n");
+                            });
+                        } catch (NumberFormatException e) {
+                            SwingUtilities.invokeLater(() -> messageArea.append("[Sistema]: Error al parsear valor de acción HIT: " + line + "\n"));
+                        }
+                    } else {
+                        SwingUtilities.invokeLater(() -> messageArea.append("[Sistema]: Formato incorrecto para /GAME_ACTION HIT: " + line + "\n"));
                     }
                 }
                 // =============================================================

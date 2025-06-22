@@ -23,6 +23,7 @@ import javax.sound.sampled.Clip;
 import javax.swing.Timer;
 import javax.swing.JButton; 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class Board extends javax.swing.JFrame {
     
@@ -872,9 +873,9 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         lblfecha.setForeground(new java.awt.Color(255, 0, 0));
         lblfecha.setText("fecha");
 
-        lblNombreJugador.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        lblNombreJugador.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         lblNombreJugador.setForeground(new java.awt.Color(255, 0, 0));
-        lblNombreJugador.setText("nombre del jugador");
+        lblNombreJugador.setText("nombre del jugador:");
 
         lblNombreJuego.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         lblNombreJuego.setForeground(new java.awt.Color(255, 0, 0));
@@ -884,30 +885,35 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         jPanel26Layout.setHorizontalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel26Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblPersonajeJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(24, 24, 24)
+                .addComponent(lblPersonajeJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(lblNombreJugador)
                 .addGap(402, 402, 402)
                 .addComponent(lblNombreJuego)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 626, Short.MAX_VALUE)
                 .addComponent(lblfecha)
                 .addGap(19, 19, 19))
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel26Layout.createSequentialGroup()
-                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblfecha)
-                    .addComponent(lblNombreJugador))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel26Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblNombreJuego)
-                .addContainerGap(21, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
-                .addComponent(lblPersonajeJugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel26Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblfecha)
+                            .addComponent(lblNombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel26Layout.createSequentialGroup()
+                        .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel26Layout.createSequentialGroup()
+                                .addComponent(lblNombreJuego)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lblPersonajeJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
 
         lbltemporizador.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
@@ -961,6 +967,11 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         jButtonHit.setBackground(new java.awt.Color(255, 204, 153));
         jButtonHit.setFont(new java.awt.Font("Comic Sans MS", 3, 18)); // NOI18N
         jButtonHit.setText("Le atinaste");
+        jButtonHit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHitActionPerformed(evt);
+            }
+        });
 
         jTextFieldSeed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1430,6 +1441,58 @@ public void RNG(long seed) { // Nuevo método RNG que acepta una semilla
         // TODO add your handling code here:
         applySeedFromTextField();
     }//GEN-LAST:event_jTextFieldSeedActionPerformed
+
+    public void handleHitAction(int value, String userNameOfAction) {
+        SwingUtilities.invokeLater(() -> {
+        String myLocalUserName = (activeChatClient != null) ? activeChatClient.getMyUserName() : "Desconocido";
+
+
+
+        if (value == 1) { // Este jugador (myLocalUserName) es el que presionó HIT
+            // Asegúrate de que userNameOfAction coincide con myLocalUserName
+            // (esto es una doble verificación, el servidor ya envió 1 si coincidía)
+            System.out.println("¡Este jugador (" + myLocalUserName + ") presionó HIT y será llevado a JFramePlayerHit!");
+            
+            PerdedorJFrame hitFrame = new PerdedorJFrame();
+            hitFrame.setVisible(true);
+
+        } else if (value == 2) { // Otro jugador (userNameOfAction) presionó HIT
+            System.out.println("Otro jugador (" + userNameOfAction + ") presionó HIT. Este jugador (" + myLocalUserName + ") será llevado a JFramePlayerMissed.");
+            
+            GanadorJFrame missedFrame = new GanadorJFrame();
+            missedFrame.setVisible(true);
+
+        } else {
+            System.out.println("Valor de acción HIT desconocido: " + value + " de " + userNameOfAction);
+            // Podrías mostrar un mensaje de error o volver a la ventana principal
+            // Si quieres volver a mostrar el board principal:
+            // if (this instanceof JFrame) { ((JFrame)this).setVisible(true); }
+            // else { SwingUtilities.getWindowAncestor(this).setVisible(true); }
+        }
+        
+        // Lógica adicional después de la acción HIT, como deshabilitar el botón si no se ha hecho ya.
+        // jButtonHit.setEnabled(false); // Puede que ya esté deshabilitado desde el ActionListener del botón.
+    });
+}
+    
+    private void jButtonHitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHitActionPerformed
+        // TODO add your handling code here:
+        if (activeChatClient != null) {
+            // ¡Obtenemos el nombre de usuario del ChatClient!
+            String myUserName = activeChatClient.getMyUserName(); 
+            if (myUserName != null && !myUserName.trim().isEmpty()) {
+                activeChatClient.sendMessage("/CMD_HIT " + myUserName);
+                jButtonHit.setEnabled(false); // Deshabilita el botón después del clic
+                System.out.println("DEBUG: Se envió /CMD_HIT " + myUserName + " al servidor.");
+            } else {
+                System.err.println("Error: No se pudo obtener el nombre de usuario para enviar /CMD_HIT.");
+                JOptionPane.showMessageDialog(Board.this, "Tu nombre de usuario no ha sido establecido. No se puede realizar la acción.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            System.err.println("Error: No se pudo enviar el comando /CMD_HIT. El ChatClient no está activo.");
+            JOptionPane.showMessageDialog(Board.this, "El chat no está conectado. No se puede realizar la acción.", "Error de Conexión", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonHitActionPerformed
 
     /**
      * @param args the command line arguments
