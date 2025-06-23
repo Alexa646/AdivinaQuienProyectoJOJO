@@ -24,6 +24,10 @@ import javax.swing.Timer;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Board extends javax.swing.JFrame {
 
@@ -128,6 +132,7 @@ public class Board extends javax.swing.JFrame {
             }
         }
     }
+    
 
     private void applySeedFromTextField() {
         if (gameStarted) {
@@ -215,6 +220,7 @@ public class Board extends javax.swing.JFrame {
     }
 
     public Board() {
+         
         initComponents();
         labels = new JLabel[]{
             jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10,
@@ -475,6 +481,7 @@ public class Board extends javax.swing.JFrame {
         lblfecha = new javax.swing.JLabel();
         lblNombreJugador = new javax.swing.JLabel();
         lblNombreJuego = new javax.swing.JLabel();
+        jLabelNombreJugador = new javax.swing.JLabel();
         lbltemporizador = new javax.swing.JLabel();
         btnMusica = new javax.swing.JButton();
         jButtonChat = new javax.swing.JButton();
@@ -874,6 +881,9 @@ public class Board extends javax.swing.JFrame {
         lblNombreJuego.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         lblNombreJuego.setForeground(new java.awt.Color(255, 0, 0));
 
+        jLabelNombreJugador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelNombreJugador.setForeground(new java.awt.Color(204, 0, 0));
+
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
@@ -883,9 +893,14 @@ public class Board extends javax.swing.JFrame {
                 .addComponent(lblPersonajeJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblNombreJugador)
-                .addGap(402, 402, 402)
-                .addComponent(lblNombreJuego)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 626, Short.MAX_VALUE)
+                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel26Layout.createSequentialGroup()
+                        .addGap(402, 402, 402)
+                        .addComponent(lblNombreJuego))
+                    .addGroup(jPanel26Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelNombreJugador)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblfecha)
                 .addGap(19, 19, 19))
         );
@@ -898,7 +913,8 @@ public class Board extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblfecha)
-                            .addComponent(lblNombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblNombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelNombreJugador)))
                     .addGroup(jPanel26Layout.createSequentialGroup()
                         .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel26Layout.createSequentialGroup()
@@ -1049,7 +1065,7 @@ public class Board extends javax.swing.JFrame {
                                 .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
                                 .addGap(284, 284, 284)))
                         .addComponent(lbltemporizador)
                         .addGap(60, 60, 60))
@@ -1520,13 +1536,13 @@ public class Board extends javax.swing.JFrame {
                 // (esto es una doble verificación, el servidor ya envió 1 si coincidía)
                 System.out.println("¡Este jugador (" + myLocalUserName + ") presionó HIT y será llevado a JFramePlayerHit!");
 
-                PerdedorJFrame hitFrame = new PerdedorJFrame();
+                perdedorJFrame hitFrame = new perdedorJFrame();
                 hitFrame.setVisible(true);
 
             } else if (value == 2) { // Otro jugador (userNameOfAction) presionó HIT
                 System.out.println("Otro jugador (" + userNameOfAction + ") presionó HIT. Este jugador (" + myLocalUserName + ") será llevado a JFramePlayerMissed.");
 
-                GanadorJFrame missedFrame = new GanadorJFrame();
+                ganadorJFrame missedFrame = new ganadorJFrame();
                 missedFrame.setVisible(true);
 
             } else {
@@ -1620,6 +1636,8 @@ public class Board extends javax.swing.JFrame {
 
     ganadorJFrame GanadorFrame = new ganadorJFrame();
     GanadorFrame.setVisible(true);
+    guardarPartidaEnBD(namae, "no", nombreDelPersonajeGanador, fecha, tiempo);
+
     this.dispose();
                 System.out.println("DEBUG: Se envió /CMD_HIT " + myUserName + " al servidor.");
             } else {
@@ -1700,8 +1718,65 @@ public class Board extends javax.swing.JFrame {
 
     ganadorJFrame GanadorFrame = new ganadorJFrame();
     GanadorFrame.setVisible(true);
+    ganadorJFrame ganadorFrame = new ganadorJFrame();
+    guardarPartidaEnBD(namae, "si", nombreDelPersonajeGanador, fecha, tiempo);
+
+
+
     this.dispose();
     }//GEN-LAST:event_jButtonYayActionPerformed
+
+public void guardarPartidaEnBD(String jugador1, String ganador, String personaje, String fechaStr, String duracionStr) {
+    Connection conn = null;
+    PreparedStatement stmt = null;
+
+    try {
+        conn = DBConnection.getConnection();
+        stmt = conn.prepareStatement("INSERT INTO partidas (jugador1, ganador, personaje_ganador, fecha, duracion) VALUES (?, ?, ?, ?, ?)");
+
+        // Establecer jugador, ganador y personaje
+        stmt.setString(1, jugador1);
+        stmt.setString(2, ganador);
+        stmt.setString(3, personaje);
+
+        // ✅ Convertir la fecha de dd/MM/yyyy a yyyy-MM-dd (formato MySQL)
+        String fechaConvertida = "";
+        try {
+            java.text.SimpleDateFormat originalFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
+            java.text.SimpleDateFormat mysqlFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date parsedDate = originalFormat.parse(fechaStr);
+            fechaConvertida = mysqlFormat.format(parsedDate);
+        } catch (Exception e) {
+            System.err.println("⚠ Error al convertir la fecha: " + e.getMessage());
+        }
+
+        stmt.setString(4, fechaConvertida); // Usamos la fecha convertida
+
+        // ✅ Convertir duración de mm:ss a segundos
+        String[] partes = duracionStr.split(":");
+        int minutos = Integer.parseInt(partes[0]);
+        int segundos = Integer.parseInt(partes[1]);
+        int duracionEnSegundos = minutos * 60 + segundos;
+
+        stmt.setInt(5, duracionEnSegundos);
+
+        // Ejecutar el insert
+        stmt.executeUpdate();
+        System.out.println("✔ Partida guardada correctamente");
+
+    } catch (Exception e) {
+        System.err.println("⚠ Error al guardar partida: " + e.getMessage());
+    } finally {
+        try {
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        } catch (Exception e) {
+            System.err.println("⚠ Error al cerrar conexión: " + e.getMessage());
+        }
+    }
+}
+
+
 
     /**
      * @param args the command line arguments
@@ -1779,6 +1854,7 @@ public class Board extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelNombreJugador;
     private javax.swing.JList<String> jListNames;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;

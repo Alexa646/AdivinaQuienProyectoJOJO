@@ -36,36 +36,38 @@ public class VentanaConsultaPartidas extends JFrame {
 
         add(panelBotones, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
+        ordenarPorDuracion(); // ⬅ Carga las partidas al abrir
+
     }
 
-    private void buscarPorNombre() {
-        String nombre = JOptionPane.showInputDialog(this, "Ingresa el nombre del jugador:");
-        if (nombre != null && !nombre.isEmpty()) {
-            modeloTabla.setRowCount(0); // Limpiar tabla
-            String sql = "SELECT * FROM partidas WHERE jugador1 = ? OR jugador2 = ?";
-            try (Connection conn = DBConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+private void buscarPorNombre() {
+    String nombre = JOptionPane.showInputDialog(this, "Ingresa el nombre del jugador:");
+    if (nombre != null && !nombre.isEmpty()) {
+        modeloTabla.setRowCount(0); // Limpiar tabla
 
-                stmt.setString(1, nombre);
-                stmt.setString(2, nombre);
-                ResultSet rs = stmt.executeQuery();
+        String sql = "SELECT * FROM partidas WHERE jugador1 = ?"; // Solo filtramos por jugador1
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-                while (rs.next()) {
-                    // Solo mostramos al jugador que coincide con la búsqueda
-                    String jugador = rs.getString("jugador1").equals(nombre) ? rs.getString("jugador1") : rs.getString("jugador2");
-                    modeloTabla.addRow(new Object[]{
-                        jugador,
-                        rs.getString("ganador"),
-                        rs.getString("personaje_ganador"),
-                        rs.getTimestamp("fecha"),
-                        rs.getInt("duracion")
-                    });
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al consultar: " + e.getMessage());
+            stmt.setString(1, nombre);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // Mostramos directamente jugador1 (ya no hay comparación con jugador2)
+                modeloTabla.addRow(new Object[]{
+                    rs.getString("jugador1"),
+                    rs.getString("ganador"),
+                    rs.getString("personaje_ganador"),
+                    rs.getTimestamp("fecha"),
+                    rs.getInt("duracion")
+                });
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al consultar: " + e.getMessage());
         }
     }
+}
+
 
     private void ordenarPorDuracion() {
         modeloTabla.setRowCount(0); // Limpiar tabla

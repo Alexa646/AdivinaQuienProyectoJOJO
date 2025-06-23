@@ -54,6 +54,11 @@ public class PantallaRegistro extends javax.swing.JFrame {
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 600, 120, 30));
 
         jTextFieldNombreRegistro.setFont(new java.awt.Font("MS Reference Sans Serif", 0, 18)); // NOI18N
+        jTextFieldNombreRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNombreRegistroActionPerformed(evt);
+            }
+        });
         getContentPane().add(jTextFieldNombreRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 540, 220, 40));
 
         jButtonIntrucciones.setBackground(new java.awt.Color(204, 0, 0));
@@ -97,9 +102,6 @@ public class PantallaRegistro extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-    Board ventanaBoard = new Board();
-    ventanaBoard.setVisible(true);
-    this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonIntruccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIntruccionesActionPerformed
@@ -130,6 +132,12 @@ public class PantallaRegistro extends javax.swing.JFrame {
         VentanaConsultaPartidas ventana = new VentanaConsultaPartidas();
         ventana.setVisible(true);
     }//GEN-LAST:event_jButtonPartidasGuardadasActionPerformed
+
+    private void jTextFieldNombreRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreRegistroActionPerformed
+        // TODO add your handling code here:
+        String nombre = jTextFieldNombreRegistro.getText();
+
+    }//GEN-LAST:event_jTextFieldNombreRegistroActionPerformed
 
     /**
      * @param args the command line arguments

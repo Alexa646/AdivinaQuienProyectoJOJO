@@ -9,7 +9,7 @@ import java.util.concurrent.Semaphore;
 
 public class ChatClient {
     
-    private static final String SERVER_ADDRESS = "192.168.1.73";
+    private static final String SERVER_ADDRESS = "192.168.1.22";
     private static final int SERVER_PORT = 12345;
 
     private BufferedReader in;
